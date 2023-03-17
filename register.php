@@ -1,6 +1,58 @@
 <?php
+    $error = false;
+    $errorMessages = [];
+    if ($_POST)
+    {
+        $postsData = [$_POST['username'], $_POST['password'], $_POST['confirmpassword'], $_POST['name'], $_POST['email']];
 
+        function emptyCheck($datas){
+            foreach($datas as $data){
+                if(empty($data))
+                {
+                    $error = true;
+                    $errorMessages[] .= "A field cannot be empty."
+                }
+            }
+        }
 
+        emptyCheck($postsData);
+
+        if ($_POST['password'] != $_POST['confirmpassword']){
+            $error = true;
+            $errorMessages[] .= "Passwords mismatched."
+        }
+        
+    }
+
+    if ($_POST && empty($_POST['username']))
+    {
+        $error = true;
+        $errorMessages[] .= "Username cannot be empty.";
+    }
+
+    if ($_POST && empty($_POST['password']))
+    {
+        $error = true;
+        $errorMessages[] .= "Password cannot be empty.";
+    }
+
+    if ($_POST && empty($_POST['confirmpassword']))
+    {
+        $error = true;
+        $errorMessages[] .= "Confirm the password.";
+    }
+
+    if ($_POST && empty($_POST['name']))
+    {
+        $error = true;
+        $errorMessages[] .= "Please enter your name.";
+    }
+
+    if ($_POST && empty($_POST['email']))
+    {
+        $error = true;
+        $errorMessages[] .= "Please enter your email address.";
+    }
 ?>
 
 <!DOCTYPE html>
