@@ -25,7 +25,7 @@
 
     // Execute the SELECT.
     $statement->execute();
-    
+        
     // Retrieves the data row.
     $posts = $statement->fetch();
     
