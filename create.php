@@ -14,6 +14,7 @@
     require('authenticate.php');    
     require_once('htmlpurifier-4.15.0/library/HTMLPurifier.auto.php');
 
+    session_start();
 
     $error = false;
     $errorMessages = [];
@@ -86,6 +87,17 @@
 <body>
     <!-- Remember that alternative syntax is good and html inside php is bad -->
     <!-- If an error occurs, the error page will be displayed, else the form displays. -->
+    <div id="nav">
+        <ul>
+            <li><a href="index.php">Home</a></li>
+            <li><a href="lfp.php">Looking for Party</a></li>
+            <?php if (isset($_SESSION)) : ?>
+                <li><a href="logout.php">Logout</a></li>
+            <?php else : ?>
+                <li><a href="login.php">Login</a></li>
+            <?php endif ?>
+        </ul>     
+    </div>
     <?php if ($error) : ?>
         <h1>An error has occurred.</h1>    
         <?php foreach ($errorMessages as $errorMessage) : ?>

@@ -9,6 +9,8 @@
 ****************/   
     require('connect.php');
 
+    session_start();
+
     // A select query based off the id in descending order up to 5 records.
     $selectQuery = "SELECT * FROM pages ORDER BY pageId DESC LIMIT 5";
 
@@ -35,6 +37,11 @@
         <ul>
             <li><a href="index.php">Home</a></li>
             <li><a href="lfp.php">Looking for Party</a></li>
+            <?php if (isset($_SESSION['authorization'])) : ?>
+                <li><a href="logout.php">Logout</a></li>
+            <?php else : ?>
+                <li><a href="login.php">Login</a></li>
+            <?php endif ?>
         </ul>
         <form action="create.php" method="post">
         <button type="submit" name="table" value="page">New Post</button> 
@@ -45,9 +52,11 @@
             <h2> <?= $page['title'] ?></h2>
             <p> <?= date("F d, Y, g:i a", strtotime($page['date'])) ?></p>
             <p> <?= $page['content'] ?></p>
-            <form action="edit.php?pageId=<?= $page['pageId'] ?>" method="post">
-            <button type="submit" name="table" value="page">Edit</button>
-            </form>     
+            <?php if ($_SESSION['authorization'] >= 3) : ?>
+                <form action="edit.php?pageId=<?= $page['pageId'] ?>" method="post">
+                <button type="submit" name="table" value="page">Edit</button>
+                </form>    
+            <?php endif ?> 
         </div>
     <?php endwhile ?>
 

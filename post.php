@@ -11,6 +11,8 @@
     //Requires these php files to be included.
     require('connect.php');
 
+    session_start();
+
     // A query that selects a row from the table based on the id.   
     $query = "SELECT * FROM posts WHERE postId = :postId LIMIT 1";
 
@@ -25,7 +27,7 @@
 
     // Execute the SELECT.
     $statement->execute();
-        
+
     // Retrieves the data row.
     $posts = $statement->fetch();
     
@@ -46,7 +48,12 @@
     <div id="nav">
         <ul>
             <li><a href="index.php">Home</a></li>
-            <li><a href="create.php">New Post</a></li>
+            <li><a href="lfp.php">Looking for Party</a></li>
+            <?php if (isset($_SESSION)) : ?>
+                <li><a href="logout.php">Logout</a></li>
+            <?php else : ?>
+                <li><a href="login.php">Login</a></li>
+            <?php endif ?>
         </ul>     
     </div>
     <div class="posts">

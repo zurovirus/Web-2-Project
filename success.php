@@ -9,6 +9,8 @@
 <body>
     <p>Success!</p>
     <p><a href="index.php">Return Home</a></p>
-    <p><a href="login.php">Log In</a></p>
+    <?php if (isset($_SESSION['authorization'])) : ?>
+            <p><a href="login.php">Log In</a></p>
+    <?php endif ?>
 </body>
 </html>
