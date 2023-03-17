@@ -161,7 +161,7 @@
         <div id="nav">
             <ul>
                 <li><a href="index.php">Home</a></li>
-                <li><a href="createAnnouncement.php">New Post</a></li>
+                <li><a href="lfp.php">Looking for Party</a></li>
             </ul>     
         </div>
         <form method="post">

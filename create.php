@@ -94,7 +94,7 @@
         <a class="home" href="index.php">Return Home</a>
     <?php else : ?>
     <h1><a href="index.php">Party Finder</a></h1>
-        <form action="createAnnouncement.php" method="post">
+        <form action="create.php" method="post">
             <label for="title">Title</label>
             </br>  
             <input type="text" name="title" id="title">
