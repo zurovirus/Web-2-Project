@@ -9,14 +9,29 @@
 ****************/   
     require('connect.php');
 
-    // A select query based off the id in descending order up to 5 records.
-    $selectQuery = "SELECT * FROM posts ORDER BY postId DESC LIMIT 10";
+    if (!$_POST){
+        // A select query based off the id in descending order up to 5 records.
+        $selectQuery = "SELECT * FROM posts ORDER BY postId DESC LIMIT 10";
 
-    // Prepares the data for the query.
-    $statement = $db->prepare($selectQuery);
+        // Prepares the data for the query.
+        $statement = $db->prepare($selectQuery);
 
-    // Execute the SELECT.
-    $statement->execute();
+        // Execute the SELECT.
+        $statement->execute();
+    }
+    else{
+        $sort = $_POST['sort'];
+        $order = $_POST['order'];
+
+        // A select query based off the id in descending order up to 5 records.
+        $selectQuery = "SELECT * FROM posts ORDER BY $sort $order LIMIT 10";
+
+        // Prepares the data for the query.
+        $statement = $db->prepare($selectQuery);
+
+        // Execute the SELECT.
+        $statement->execute();
+    }
 
 ?>
 
@@ -40,6 +55,21 @@
         <button type="submit" name="table" value="post">New Post</button> 
         </form>   
     </div>
+    <form action="lfp.php" method="post">
+    <select name="sort" id="sort">
+        <option value="title">Title</option>
+        <option value="dateCreated">Created</option>
+        <option value="updated">Updated</option>
+    </select>
+    <select name="order" id="order">
+        <option value="ASC">Newest</option>
+        <option value="DESC">Oldest</option>
+    </select>
+        <button type="submit">Sort</button> 
+    </form>
+    <?php if ($_POST) : ?>
+        <p>Posts sorted by: <?= $sort ?> <?= $order ?></p>
+    <?php endif ?>
     <?php while ($post = $statement->fetch()) : ?>
         <div class="posts">
             <h2> <a href="post.php?postId=<?= $post['postId'] ?>"><?= $post['title'] ?></a></h2>

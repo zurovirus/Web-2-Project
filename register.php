@@ -1,57 +1,78 @@
 <?php
+    require('connect.php');
+
     $error = false;
     $errorMessages = [];
+    
+    function emptyCheck($datas){
+        foreach($datas as $data){
+            $empty = false;
+
+            if(empty($data)){
+            
+                $empty = true; 
+                return $empty;                    
+            }
+        }
+        
+        return false;
+    }
+
     if ($_POST)
     {
         $postsData = [$_POST['username'], $_POST['password'], $_POST['confirmpassword'], $_POST['name'], $_POST['email']];
 
-        function emptyCheck($datas){
-            foreach($datas as $data){
-                if(empty($data))
-                {
-                    $error = true;
-                    $errorMessages[] .= "A field cannot be empty."
-                }
-            }
+        $error = emptyCheck($postsData);
+
+        if ($error)
+        {
+            $errorMessages[] .= "A field cannot be empty.";
         }
 
-        emptyCheck($postsData);
+        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $usernamecheck = "SELECT * FROM users WHERE userName = :userName LIMIT 1";
+
+        $statement = $db->prepare($usernamecheck);
+        $statement->bindValue(':userName', $username, PDO::PARAM_STR);
+        $statement->execute();
+
+        $fetchname = null;
+
+        while($fetch = $statement->fetch()){
+            $fetchname = $fetch['userName'];
+        }
+        
+        if ($fetchname == $username && !empty($username)) 
+        {
+            $error = true;
+            $errorMessages[] .= "Username is taken";
+        }
 
         if ($_POST['password'] != $_POST['confirmpassword']){
             $error = true;
-            $errorMessages[] .= "Passwords mismatched."
+            $errorMessages[] .= "Passwords mismatched.";
         }
-        
-    }
 
-    if ($_POST && empty($_POST['username']))
-    {
-        $error = true;
-        $errorMessages[] .= "Username cannot be empty.";
-    }
+        if(!$error){
+            $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $passwordhash = password_hash($password, PASSWORD_DEFAULT);
+            $fullName = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-    if ($_POST && empty($_POST['password']))
-    {
-        $error = true;
-        $errorMessages[] .= "Password cannot be empty.";
-    }
+            $query = "INSERT INTO users (userName, password, fullName, email) VALUES (:username, :password, :fullName, :email)";
 
-    if ($_POST && empty($_POST['confirmpassword']))
-    {
-        $error = true;
-        $errorMessages[] .= "Confirm the password.";
-    }
+            $statement = $db->prepare($query);
 
-    if ($_POST && empty($_POST['name']))
-    {
-        $error = true;
-        $errorMessages[] .= "Please enter your name.";
-    }
+            $statement->bindValue(':username', $username);
+            $statement->bindValue(':password', $passwordhash);
+            $statement->bindValue(':fullName', $fullName);
+            $statement->bindValue(':email', $email);
 
-    if ($_POST && empty($_POST['email']))
-    {
-        $error = true;
-        $errorMessages[] .= "Please enter your email address.";
+            $statement->execute();
+
+            header("Location: success.php");
+            exit;
+        }
     }
 ?>
 
@@ -64,6 +85,13 @@
     <title>Document</title>
 </head>
 <body>
+    <?php if ($error) : ?>
+        <h1>An error has occurred.</h1>
+        <?php foreach ($errorMessages as $errorMessage) : ?>
+            <p><?= $errorMessage ?> </p>
+        <?php endforeach ?>
+        <a class="home" href="register.php">Back</a>
+    <?php else : ?>
     <form action="register.php" method="post">
         <label for="username">Username: </label>
         <input type="text" name="username" id="username">
@@ -75,6 +103,8 @@
         <input type="text" name="name" id="name">   
         <label for="password">Email: </label>
         <input type="email" name="email" id="email">
+        <button type="submit">Register</button>
     </form>
+    <?php endif ?>
 </body>
 </html>
