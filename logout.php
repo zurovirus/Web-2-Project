@@ -1,5 +1,13 @@
 <?php
-    session_destroy();
+    session_start();
+
+    if (isset($_SESSION['user'])){
+        session_destroy();
+        header('Location: index.php');
+    }
+    else{
+        header('Location: index.php');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

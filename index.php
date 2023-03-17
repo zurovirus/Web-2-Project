@@ -37,7 +37,7 @@
         <ul>
             <li><a href="index.php">Home</a></li>
             <li><a href="lfp.php">Looking for Party</a></li>
-            <?php if (isset($_SESSION['authorization'])) : ?>
+            <?php if (isset($_SESSION['user'])) : ?>
                 <li><a href="logout.php">Logout</a></li>
             <?php else : ?>
                 <li><a href="login.php">Login</a></li>
@@ -52,7 +52,7 @@
             <h2> <?= $page['title'] ?></h2>
             <p> <?= date("F d, Y, g:i a", strtotime($page['date'])) ?></p>
             <p> <?= $page['content'] ?></p>
-            <?php if ($_SESSION['authorization'] >= 3) : ?>
+            <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
                 <form action="edit.php?pageId=<?= $page['pageId'] ?>" method="post">
                 <button type="submit" name="table" value="page">Edit</button>
                 </form>    

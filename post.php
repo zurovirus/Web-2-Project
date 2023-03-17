@@ -49,7 +49,7 @@
         <ul>
             <li><a href="index.php">Home</a></li>
             <li><a href="lfp.php">Looking for Party</a></li>
-            <?php if (isset($_SESSION)) : ?>
+            <?php if (isset($_SESSION['user'])) : ?>
                 <li><a href="logout.php">Logout</a></li>
             <?php else : ?>
                 <li><a href="login.php">Login</a></li>
