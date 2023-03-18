@@ -93,11 +93,14 @@
             <?php if ($post['updated'] != null) : ?>
                 <p class="date"> Edit By: <a href="member.php?userId=<?= $editName['userId'] ?>"><?= $editName['userName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($post['updated'])) ?></p>
             <?php endif ?>
-            <form action="edit.php?postId=<?= $post['postId'] ?>" method="post">
-            <button type="submit" name="table" value="post">Edit</button>
-            </form>     
+            <?php if (isset($_SESSION['userId'])) : ?>
+                <?php if ($_SESSION['userId'] == $editName['userId'] || $_SESSION['authorization'] >= 3) : ?>
+                    <form action="edit.php?postId=<?= $post['postId'] ?>" method="post">
+                    <button type="submit" name="table" value="post">Edit</button>
+                    </form>     
+                <?php endif ?>
+            <?php endif ?>
         </div>
     <?php endwhile ?>
-
 </body>
 </html>
