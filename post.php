@@ -14,7 +14,7 @@
     session_start();
 
     // A query that selects a row from the table based on the id.   
-    $query = "SELECT * FROM posts WHERE postId = :postId LIMIT 1";
+    $query = "SELECT * FROM posts INNER JOIN users ON users.userId = posts.userId WHERE postId = :postId LIMIT 1";
 
     // Prepares the data for the query.
     $statement = $db->prepare($query);
@@ -61,7 +61,7 @@
         <p class="date">Date created: <?= date("F d, Y, g:i a", strtotime($posts['dateCreated'])) ?> - <a href="edit.php?id=<?= $posts['postId'] ?>">Edit</a></p>
         <p><?= $posts['content'] ?></p>
         <?php if ($posts['updated'] != null) : ?>
-                <p class="date"> Date edited: <?= date("F d, Y, g:i a", strtotime($posts['updated'])) ?></p>
+                <p class="date">Edited by: <?= ?>on <?= date("F d, Y, g:i a", strtotime($posts['updated'])) ?></p>
         <?php endif ?>
     </div>
 </body>

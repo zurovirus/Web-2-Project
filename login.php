@@ -1,6 +1,6 @@
 <?php
     require('connect.php');
-    
+
     $error = false;
     $errorMessages = [];
     if($_POST){
@@ -16,18 +16,17 @@
         $usernamecheck = "SELECT * FROM users WHERE userName = :userName LIMIT 1";
 
         $statement = $db->prepare($usernamecheck);
+
         $statement->bindValue(':userName', $username, PDO::PARAM_STR);
+
         $statement->execute();
 
-        $fetchname = null;
-        $fetchPassword = null;
-        $fetchAuth = null;
-
-        while($fetch = $statement->fetch()){
-            $fetchname = $fetch['userName'];
-            $fetchPassword = $fetch['password'];
-            $fetchAuth = $fetch['authorization'];
-        }
+        $fetch = $statement->fetch();
+        
+        $fetchname = $fetch['userName'];
+        $fetchPassword = $fetch['password'];
+        $fetchAuth = $fetch['authorization'];
+        $fetchid = $fetch['userId'];
         
         if ($fetchname != $username && !empty($username)) 
         {
@@ -49,6 +48,7 @@
             session_start();
             $_SESSION['user'] = $fetchname;
             $_SESSION['authorization'] = $fetchAuth;
+            $_SESSION['userId'] = $fetchid;
 
             header("Location: success.php");
             exit;

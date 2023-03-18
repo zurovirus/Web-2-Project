@@ -11,7 +11,6 @@
 
     //Requires these php files to be included.
     require('connect.php');
-    require('authenticate.php');    
     require_once('htmlpurifier-4.15.0/library/HTMLPurifier.auto.php');
 
     session_start();
@@ -32,8 +31,23 @@
             $content = $purifier->purify($_POST['content']);
             $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             
+            $username = $_SESSION['user'];
+
+            $select = "SELECT * FROM users WHERE userName = :userName LIMIT 1";
+    
+            // Prepares the data for the query.
+            $statement = $db->prepare($select);
+            
+            // Binds the data to the values.
+            $statement->bindValue(":userName", $username);
+            
+            // Execute the INSERT.
+            $statement->execute();
+
+            $row = $statement->fetch();
+
             // A query that will insert the title and content into the table.
-            $query = "INSERT INTO $table (title, content) VALUES (:title, :content)";
+            $query = "INSERT INTO $table (title, content, userId) VALUES (:title, :content, :userId)";
     
             // Prepares the data for the query.
             $statement = $db->prepare($query);
@@ -41,13 +55,14 @@
             // Binds the data to the values.
             $statement->bindValue(":title", $title);
             $statement->bindValue(":content", $content);
+            $statement->bindValue(":userId", $row['userId']);
             
             // Execute the INSERT.
             $statement->execute();
     
             // Redirects the user to index.php after inserting into the table.
             switch ($table){
-                case "pages":
+                case "news":
                     header("Location: index.php");
                     exit;
                     break;
@@ -91,11 +106,7 @@
         <ul>
             <li><a href="index.php">Home</a></li>
             <li><a href="lfp.php">Looking for Party</a></li>
-            <?php if (isset($_SESSION['user'])) : ?>
-                <li><a href="logout.php">Logout</a></li>
-            <?php else : ?>
-                <li><a href="login.php">Login</a></li>
-            <?php endif ?>
+            <li><a href="logout.php">Logout</a></li>
         </ul>     
     </div>
     <?php if ($error) : ?>

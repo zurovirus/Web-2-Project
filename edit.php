@@ -10,7 +10,6 @@
 ****************/   
     //Requires these php files to be included.
     require('connect.php');
-    require('authenticate.php');
     require_once('htmlpurifier-4.15.0/library/HTMLPurifier.auto.php');
 
     session_start();
@@ -50,8 +49,21 @@
         // Checks if post data exists for each input field and updates the data when the update button is clicked.
         if ($_POST && !empty($_POST['title']) && !empty($_POST['content']) && isset($_POST[$tableid]) && $_POST['submit'] == "update")
         {
+            if ($table == "posts"){
+                $insert = "UPDATE $table SET userEditId = :userEditId WHERE $tableid = :$tableid LIMIT 1";
+
+                $statement = $db->prepare($insert);
+
+                $editId = $_SESSION['userId'];
+                
+                $statement->bindValue(":$tableid", $id, PDO::PARAM_INT);
+                $statement->bindValue(':userEditId', $editId);
+
+                $statement->execute();
+            }
+
             // Build the parameterized SQL query and bind to the above sanitized values.
-            $query     = "UPDATE $table SET title = :title, content = :content WHERE $tableid = :$tableid LIMIT 1";
+            $query = "UPDATE $table SET title = :title, content = :content WHERE $tableid = :$tableid LIMIT 1";
 
             // Prepares the data for the query.
             $statement = $db->prepare($query);
@@ -63,10 +75,10 @@
             
             // Execute the INSERT.
             $statement->execute();
-            
+         
             // Redirect after update.
             switch ($table){
-                case "pages":
+                case "news":
                     header("Location: index.php");
                     exit;
                     break;
@@ -94,7 +106,7 @@
             
             // Redirect after update.
             switch ($table){
-                case "pages":
+                case "news":
                     header("Location: index.php");
                     exit;
                     break;

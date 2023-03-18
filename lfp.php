@@ -11,8 +11,14 @@
     session_start();
 
     if (!$_POST){
-        // A select query based off the id in descending order up to 5 records.
-        $selectQuery = "SELECT * FROM posts ORDER BY postId DESC LIMIT 10";
+        // A select query based off the id in descending order up to 10 records.
+        $selectQuery = "SELECT * FROM posts INNER JOIN users ON users.userId = posts.userId ORDER BY postId DESC LIMIT 10";
+        $editQuery = "SELECT * FROM posts INNER JOIN users ON users.userId = posts.userEditId";
+
+        $statement = $db->prepare($editQuery);
+
+        $statement->execute();
+        $editName = $statement->fetch();
 
         // Prepares the data for the query.
         $statement = $db->prepare($selectQuery);
@@ -57,10 +63,11 @@
                 <li><a href="login.php">Login</a></li>
             <?php endif ?>
         </ul>
-        <form action="create.php" method="post">
-            
-        <button type="submit" name="table" value="post">New Post</button> 
-        </form>   
+        <?php if (isset($_SESSION['user'])) : ?>
+            <form action="create.php" method="post">
+            <button type="submit" name="table" value="post">New Post</button> 
+            </form>   
+        <?php endif ?> 
     </div>
     <form action="lfp.php" method="post">
     <select name="sort" id="sort">
@@ -81,9 +88,10 @@
         <div class="posts">
             <h2> <a href="post.php?postId=<?= $post['postId'] ?>"><?= $post['title'] ?></a></h2>
             <p class="date"> Date created: <?= date("F d, Y, g:i a", strtotime($post['dateCreated'])) ?></p>
+            <p>By: <a href="member.php?userId=<?= $post['userId'] ?>"><?= $post['userName'] ?></a></p>
             <p> <?= $post['content'] ?></p>
             <?php if ($post['updated'] != null) : ?>
-                <p class="date"> Date edited: <?= date("F d, Y, g:i a", strtotime($post['updated'])) ?></p>
+                <p class="date"> Edit By: <a href="member.php?userId=<?= $editName['userId'] ?>"><?= $editName['userName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($post['updated'])) ?></p>
             <?php endif ?>
             <form action="edit.php?postId=<?= $post['postId'] ?>" method="post">
             <button type="submit" name="table" value="post">Edit</button>
