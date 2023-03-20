@@ -93,7 +93,7 @@
         elseif ($_POST && $_POST['submit'] == "delete")
         {
             // Build the parameterized SQL query and bind to the above sanitized values.
-            $query     = "DELETE FROM $tables WHERE $tableid = :$tableid LIMIT 1";
+            $query     = "DELETE FROM $table WHERE $tableid = :$tableid LIMIT 1";
 
             // Prepares the data for the query.
             $statement = $db->prepare($query);

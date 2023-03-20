@@ -101,7 +101,7 @@
             <p>By: <a href="member.php?userId=<?= $post['userId'] ?>"><?= $post['userName'] ?></a></p>
             <p> <?= $post['content'] ?></p>
             <?php if ($post['updated'] != null) : ?>
-                <p class="date"> Edit By: <a href="member.php?userId=<?= $editName['userId'] ?>"><?= $editName['userName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($post['updated'])) ?></p>
+                <p class="date"> Edit By: <a href="member.php?userId=<?= $post['userEditId'] ?>"><?= $post['userName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($post['updated'])) ?></p>
             <?php endif ?>
             <?php if (isset($_SESSION['userId'])) : ?>
                 <?php if ($_SESSION['userId'] == $post['userId'] || $_SESSION['authorization'] >= 3) : ?>

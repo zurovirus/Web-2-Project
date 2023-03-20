@@ -10,7 +10,7 @@
     session_start();
 
     // A select query based off the id in descending order up to 5 records.
-    $selectQuery = "SELECT * FROM users ORDER BY userId DESC LIMIT 5";
+    $selectQuery = "SELECT * FROM users ORDER BY userName ASC";
 
     // Prepares the data for the query.
     $statement = $db->prepare($selectQuery);
