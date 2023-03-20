@@ -31,7 +31,14 @@
         $order = $_POST['order'];
 
         // A select query based off the id in descending order up to 5 records.
-        $selectQuery = "SELECT * FROM posts ORDER BY $sort $order LIMIT 10";
+        $selectQuery = "SELECT * FROM posts INNER JOIN users ON users.userId = posts.userId ORDER BY $sort $order LIMIT 10";
+        $editQuery = "SELECT * FROM posts INNER JOIN users ON users.userId = posts.userEditId";
+
+        $statement = $db->prepare($editQuery);
+
+        $statement->execute();
+        $editName = $statement->fetch();
+
 
         // Prepares the data for the query.
         $statement = $db->prepare($selectQuery);
@@ -67,20 +74,23 @@
             <form action="create.php" method="post">
             <button type="submit" name="table" value="post">New Post</button> 
             </form>   
+            </br>
         <?php endif ?> 
     </div>
-    <form action="lfp.php" method="post">
-    <select name="sort" id="sort">
-        <option value="title">Title</option>
-        <option value="dateCreated">Created</option>
-        <option value="updated">Updated</option>
-    </select>
-    <select name="order" id="order">
-        <option value="ASC">Newest</option>
-        <option value="DESC">Oldest</option>
-    </select>
-        <button type="submit">Sort</button> 
-    </form>
+    <?php if (isset($_SESSION['user'])) : ?>
+        <form action="lfp.php" method="post">
+        <select name="sort" id="sort">
+            <option value="title">Title</option>
+            <option value="dateCreated">Created</option>
+            <option value="updated">Updated</option>
+        </select>
+        <select name="order" id="order">
+            <option value="ASC">Oldest</option>
+            <option value="DESC">Newest</option>
+        </select>
+            <button type="submit">Sort</button> 
+        </form>
+    <?php endif ?> 
     <?php if ($_POST) : ?>
         <p>Posts sorted by: <?= $sort ?> <?= $order ?></p>
     <?php endif ?>
@@ -94,7 +104,7 @@
                 <p class="date"> Edit By: <a href="member.php?userId=<?= $editName['userId'] ?>"><?= $editName['userName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($post['updated'])) ?></p>
             <?php endif ?>
             <?php if (isset($_SESSION['userId'])) : ?>
-                <?php if ($_SESSION['userId'] == $editName['userId'] || $_SESSION['authorization'] >= 3) : ?>
+                <?php if ($_SESSION['userId'] == $post['userId'] || $_SESSION['authorization'] >= 3) : ?>
                     <form action="edit.php?postId=<?= $post['postId'] ?>" method="post">
                     <button type="submit" name="table" value="post">Edit</button>
                     </form>     

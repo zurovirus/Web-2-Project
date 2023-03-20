@@ -78,6 +78,7 @@
         <?php endforeach ?>
         <a class="home" href="login.php">Back</a>
     <?php else : ?>
+        <li><p>No account? <a href="register.php">Register now!</a></p></li>
         <form action="login.php" method="post">
         <label for="username">Username:</label>
         <input type="text" name="userName" id="userName">

@@ -15,6 +15,12 @@
 
     // A query that selects a row from the table based on the id.   
     $query = "SELECT * FROM posts INNER JOIN users ON users.userId = posts.userId WHERE postId = :postId LIMIT 1";
+    $editQuery = "SELECT * FROM posts INNER JOIN users ON users.userId = posts.userEditId";
+
+    $statement = $db->prepare($editQuery);
+
+    $statement->execute();
+    $editName = $statement->fetch();
 
     // Prepares the data for the query.
     $statement = $db->prepare($query);
@@ -57,11 +63,22 @@
         </ul>     
     </div>
     <div class="posts">
+    <?php if (!empty($_POST)) : ?>
+        <input type="hidden" name="edit" value="<?= $_POST['table'] ?>">
+    <?php endif ?>
         <h2><?= $posts['title'] ?></h2>
-        <p class="date">Date created: <?= date("F d, Y, g:i a", strtotime($posts['dateCreated'])) ?> - <a href="edit.php?id=<?= $posts['postId'] ?>">Edit</a></p>
+        <p class="date">Date created: <?= date("F d, Y, g:i a", strtotime($posts['dateCreated'])) ?></p>
+        <p>By: <a href="member.php?userId=<?= $posts['userId'] ?>"><?= $posts['userName'] ?></a></p>
         <p><?= $posts['content'] ?></p>
         <?php if ($posts['updated'] != null) : ?>
-                <p class="date">Edited by: <?= ?>on <?= date("F d, Y, g:i a", strtotime($posts['updated'])) ?></p>
+                <p class="date">Edited by: <?= $editName['userId'] ?>on <?= date("F d, Y, g:i a", strtotime($posts['updated'])) ?></p>
+        <?php endif ?>
+        <?php if (isset($_SESSION['userid'])) : ?>
+            <?php if ($_SESSION['userId'] == $posts['userId']) : ?>         
+                <form action="edit.php?postId=<?= $posts['postId'] ?>" method="post">
+                <button type="submit" name="table" value="post">Edit</button>
+                </form>     
+            <?php endif ?>
         <?php endif ?>
     </div>
 </body>
