@@ -42,7 +42,7 @@
     <?php while ($user = $statement->fetch()) : ?>
         <div class="users">
             <h2> <a href="member.php?userId=<?= $user['userId'] ?>"><?= $user['userName'] ?></a></h2>  
-        </div>
+        </d iv>
     <?php endwhile ?>
 </body>
 </html>
