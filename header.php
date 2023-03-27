@@ -9,10 +9,8 @@
             <?php else : ?>
                 <li><a href="login.php">Login</a></li>
             <?php endif ?>
+            <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
+                <li><a href="category.php">Category</a></li>
+            <?php endif ?>
         </ul>
-        <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
-            <form action="create.php" method="post">
-            <button type="submit" name="table" value="new">New Post</button> 
-            </form>
-        <?php endif ?> 
     </div>

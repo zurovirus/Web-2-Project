@@ -1,25 +1,25 @@
 <?php
     require('connect.php');
 
-    $selectQuery = "SELECT * FROM news INNER JOIN users ON users.userId = news.userId ORDER BY newId DESC LIMIT 5";
+    $asideQuery = "SELECT * FROM news INNER JOIN users ON users.userId = news.userId ORDER BY newId DESC LIMIT 5";
 
     // Prepares the data for the query.
-    $statement = $db->prepare($selectQuery);
+    $aside = $db->prepare($selectQuery);
 
     // Execute the SELECT.
-    $statement->execute();
+    $aside->execute();
 
 ?>
 
 <aside class= "aside">
-<?php while ($new = $statement->fetch()) : ?>
+<?php while ($news = $aside->fetch()) : ?>
     <div class="news">
-        <h2> <?= $new['title'] ?></h2>
-        <p> <?= date("F d, Y, g:i a", strtotime($new['date'])) ?></p>
-        <?php if (strlen($new['content']) > 100) : ?>
-            <p> <?= substr($new['content'], 0, 100) . "..." ?><br><a href="post.php?id=<?= $new['id'] ?>">Read Full Post</a></p>
+        <h2> <?= $news['title'] ?></h2>
+        <p> <?= date("F d, Y, g:i a", strtotime($news['date'])) ?></p>
+        <?php if (strlen($news['content']) > 100) : ?>
+            <p> <?= substr($news['content'], 0, 100) . "..." ?><br><a href="post.php?id=<?= $news['id'] ?>">Read Full Post</a></p>
         <?php else : ?>
-            <p> <?= $new['content'] ?></p>
+            <p> <?= $news['content'] ?></p>
         <?php endif ?>
     </div>
 <?php endwhile ?>

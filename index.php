@@ -33,6 +33,11 @@
 </head>
 <body>
     <?php include('header.php') ?>
+    <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
+            <form action="create.php" method="post">
+            <button type="submit" name="table" value="new">New Post</button> 
+            </form>
+        <?php endif ?> 
     <?php while ($new = $statement->fetch()) : ?>
         <div class="news">
             <h2> <?= $new['title'] ?></h2>

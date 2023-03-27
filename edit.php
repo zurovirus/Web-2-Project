@@ -56,18 +56,27 @@
 
                 $editId = $_SESSION['userId'];
                 
-                
-                statement->bindValue(":$tableid", $id, PDO::PARAM_INT);
+                $statement->bindValue(":$tableid", $id, PDO::PARAM_INT);
                 $statement->bindValue(':userEditId', $editId);
 
                 $statement->execute();
             }
 
             // Build the parameterized SQL query and bind to the above sanitized values.
-            $query = "UPDATE $table SET title = :title, content = :content WHERE $tableid = :$tableid LIMIT 1";
+            if ($table == "news")
+            {
+                $query = "UPDATE $table SET title = :title, content = :content WHERE $tableid = :$tableid LIMIT 1"; 
 
-            // Prepares the data for the query.
-            $statement = $db->prepare($query);
+                $statement = $db->prepare($query);
+            }
+            else
+            {
+                $query = "UPDATE $table SET title = :title, content = :content, categoryId = :categoryId WHERE $tableid = :$tableid LIMIT 1";
+
+                $statement = $db->prepare($query);
+
+                $statement->bindValue('categoryId', $_POST['category']);
+            }
 
             // Binds the data to the values.
             $statement->bindValue(':title', $title);        
@@ -130,7 +139,14 @@
         $id = filter_input(INPUT_GET, $tableid, FILTER_SANITIZE_NUMBER_INT);
 
         // Build the parameterized SQL query and bind to the above sanitized values.
-        $query = "SELECT * FROM $table WHERE $tableid = :$tableid LIMIT 1";
+        if ($table == "news")
+        {
+            $query = "SELECT * FROM $table WHERE $tableid = :$tableid LIMIT 1";
+        }
+        else
+        {
+            $query = "SELECT * FROM $table INNER JOIN category ON $table.categoryId = category.categoryId WHERE $tableid = :$tableid LIMIT 1";
+        }
 
         // Prepares the data for the query.
         $statement = $db->prepare($query);
@@ -143,6 +159,15 @@
         
         // Retrieves the data row.
         $row = $statement->fetch();
+
+        // A select query based off the id in descending order up to 5 records.
+        $selectQuery = "SELECT * FROM category WHERE categoryId ORDER BY categoryId ASC";
+
+        // Prepares the data for the query.
+        $statement = $db->prepare($selectQuery);
+
+        // Execute the SELECT.
+        $statement->execute();
 
         // If the sanitized ID does not equal the GET[id] or if the retrieved ID is empty. Redirects to index.php.
         if ($id != $_GET[$tableid] || $row[$tableid] == null) 
@@ -187,6 +212,16 @@
         selector : "#content"
     });
         </script>
+            <?php if ($_POST['table'] == 'post') : ?>
+                <label for="category">Category</label>
+                <select name="category" id="category">
+                    <option value="<?= $row['categoryId'] ?>" selected hidden><?= $row['categoryName'] ?></option>
+                    <?php while ($category = $statement->fetch()) : ?>
+                        <option value="<?= $category['categoryId']?>"><?= $category['categoryName'] ?></option>
+                    <?php endwhile ?>
+                </select>     
+            <?php endif ?>
+            <br>
             <span>
                 <button type="submit" name="submit" value="update">Update</button>
                 <button type="submit" name="submit" value="delete" onclick="confirm('Are you sure you want to delete?')">Delete</button>

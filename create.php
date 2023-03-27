@@ -46,20 +46,40 @@
 
             $row = $statement->fetch();
 
-            // A query that will insert the title and content into the table.
-            $query = "INSERT INTO $table (title, content, userId) VALUES (:title, :content, :userId)";
-    
-            // Prepares the data for the query.
-            $statement = $db->prepare($query);
-            
-            // Binds the data to the values.
-            $statement->bindValue(":title", $title);
-            $statement->bindValue(":content", $content);
-            $statement->bindValue(":userId", $row['userId']);
-            
-            // Execute the INSERT.
-            $statement->execute();
-    
+            if (empty($_POST['category']))
+            {
+                // A query that will insert the title and content into the table.
+                $query = "INSERT INTO $table (title, content, userId) VALUES (:title, :content, :userId)";
+                
+                // Prepares the data for the query.
+                $statement = $db->prepare($query);
+                
+                // Binds the data to the values.
+                $statement->bindValue(":title", $title);
+                $statement->bindValue(":content", $content);
+                $statement->bindValue(":userId", $row['userId']);
+                
+                // Execute the INSERT.
+                $statement->execute();
+            }
+            else
+            {
+                // A query that will insert the title and content into the table.
+                $query = "INSERT INTO $table (title, content, userId, categoryId) VALUES (:title, :content, :userId, :categoryId)";
+                
+                // Prepares the data for the query.
+                $statement = $db->prepare($query);
+                
+                // Binds the data to the values.
+                $statement->bindValue(":title", $title);
+                $statement->bindValue(":content", $content);
+                $statement->bindValue(":userId", $row['userId']);
+                $statement->bindValue(":categoryId", $_POST['category']);
+                
+                // Execute the INSERT.
+                $statement->execute();
+            }
+
             // Redirects the user to index.php after inserting into the table.
             switch ($table){
                 case "news":
@@ -88,6 +108,14 @@
         }
     }
 
+    // A select query based off the id in descending order up to 5 records.
+    $selectQuery = "SELECT * FROM category WHERE categoryId > 1 ORDER BY categoryId ASC";
+
+    // Prepares the data for the query.
+    $statement = $db->prepare($selectQuery);
+
+    // Execute the SELECT.
+    $statement->execute();
 ?>
 
 <html lang="en">
@@ -121,6 +149,15 @@
                 selector : "#content"
                 });
             </script>
+            <?php if ($_POST['table'] == 'post') : ?>
+                <label for="category">Category</label>
+                <select name="category" id="category">
+                    <option value="">--</option>
+                    <?php while ($category = $statement->fetch()) : ?>
+                        <option value="<?= $category['categoryId']?>"><?= $category['categoryName'] ?></option>
+                    <?php endwhile ?>
+                </select>     
+            <?php endif ?>
             <span>
                 <button type="submit" name="edit" value="<?= $_POST['table'] ?>">Post</button>
             </span>
