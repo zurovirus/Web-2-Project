@@ -102,13 +102,7 @@
 <body>
     <!-- Remember that alternative syntax is good and html inside php is bad -->
     <!-- If an error occurs, the error page will be displayed, else the form displays. -->
-    <div id="nav">
-        <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href="lfp.php">Looking for Party</a></li>
-            <li><a href="logout.php">Logout</a></li>
-        </ul>     
-    </div>
+    <?php include('header.php') ?>
     <?php if ($error) : ?>
         <h1>An error has occurred.</h1>    
         <?php foreach ($errorMessages as $errorMessage) : ?>
@@ -116,7 +110,6 @@
         <?php endforeach ?>
         <a class="home" href="index.php">Return Home</a>
     <?php else : ?>
-    <h1><a href="index.php">Party Finder</a></h1>
         <form action="create.php" method="post">
             <label for="title">Title</label>
             </br>  

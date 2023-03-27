@@ -51,18 +51,7 @@
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
-    <h1><a href="index.php">Party Finder</a></h1>
-    <div id="nav">
-        <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href="lfp.php">Looking for Party</a></li>
-            <?php if (isset($_SESSION['user'])) : ?>
-                <li><a href="logout.php">Logout</a></li>
-            <?php else : ?>
-                <li><a href="login.php">Login</a></li>
-            <?php endif ?>
-        </ul>     
-    </div>
+<?php include('header.php') ?>
     <div class="posts">
     <?php if (!empty($_POST)) : ?>
         <input type="hidden" name="edit" value="<?= $_POST['table'] ?>">

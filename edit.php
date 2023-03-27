@@ -56,7 +56,8 @@
 
                 $editId = $_SESSION['userId'];
                 
-                $statement->bindValue(":$tableid", $id, PDO::PARAM_INT);
+                
+                statement->bindValue(":$tableid", $id, PDO::PARAM_INT);
                 $statement->bindValue(':userEditId', $editId);
 
                 $statement->execute();
@@ -88,6 +89,7 @@
                     break;
             }
         }
+
 
         // Checks if posts data exists and deletes the data if the delete button is clicked.
         elseif ($_POST && $_POST['submit'] == "delete")
@@ -123,7 +125,7 @@
     {
         $table = $_POST['table'] . "s";
         $tableid = $_POST['table'] . "Id";
-
++
         // Sanitizes the user input and filters out everything but INTs.
         $id = filter_input(INPUT_GET, $tableid, FILTER_SANITIZE_NUMBER_INT);
 
@@ -171,18 +173,7 @@
         <?php endforeach ?>
         <a class="home" href="index.php">Return Home</a>
     <?php else : ?>
-        <h1><a href="index.php">Party Finder</a></h1>
-        <div id="nav">
-            <ul>
-                <li><a href="index.php">Home</a></li>
-                <li><a href="lfp.php">Looking for Party</a></li>
-                <?php if (isset($_SESSION['user'])) : ?>
-                    <li><a href="logout.php">Logout</a></li>
-                <?php else : ?>
-                    <li><a href="login.php">Login</a></li>
-                <?php endif ?>
-            </ul>     
-        </div>
+        <?php include('header.php') ?>
         <form method="post">
             <input type="hidden" name=<?= $tableid ?> value="<?= $row[$tableid] ?>">
             <input type="hidden" name="edit" value="<?= $_POST['table'] ?>">

@@ -28,17 +28,7 @@
     <title>Document</title>
 </head>
 <body>
-<div id="nav">
-        <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href="lfp.php">Looking for Party</a></li>
-            <?php if (isset($_SESSION['user'])) : ?>
-                <li><a href="logout.php">Logout</a></li>
-            <?php else : ?>
-                <li><a href="login.php">Login</a></li>
-            <?php endif ?>
-        </ul>     
-    </div>
+    <?php include('header.php') ?>
     <?php while ($user = $statement->fetch()) : ?>
         <div class="users">
             <h2> <a href="member.php?userId=<?= $user['userId'] ?>"><?= $user['userName'] ?></a></h2>  
