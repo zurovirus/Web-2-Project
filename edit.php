@@ -139,14 +139,7 @@
         $id = filter_input(INPUT_GET, $tableid, FILTER_SANITIZE_NUMBER_INT);
 
         // Build the parameterized SQL query and bind to the above sanitized values.
-        if ($table == "news")
-        {
-            $query = "SELECT * FROM $table WHERE $tableid = :$tableid LIMIT 1";
-        }
-        else
-        {
-            $query = "SELECT * FROM $table INNER JOIN category ON $table.categoryId = category.categoryId WHERE $tableid = :$tableid LIMIT 1";
-        }
+        $query = "SELECT * FROM $table WHERE $tableid = :$tableid LIMIT 1";
 
         // Prepares the data for the query.
         $statement = $db->prepare($query);
@@ -159,6 +152,23 @@
         
         // Retrieves the data row.
         $row = $statement->fetch();
+
+        if ($table == 'posts')
+        {
+            $query = "SELECT * FROM $table INNER JOIN category ON $table.categoryId = category.categoryId WHERE $tableid = :$tableid LIMIT 1";
+
+            // Prepares the data for the query.
+            $statement = $db->prepare($query);
+    
+            // Binds the data to the values.
+            $statement->bindValue($tableid, $id, PDO::PARAM_INT);
+    
+            // Execute the SELECT.
+            $statement->execute();
+            
+            // Retrieves the data row.
+            $post = $statement->fetch();
+        }
 
         // A select query based off the id in descending order up to 5 records.
         $selectQuery = "SELECT * FROM category WHERE categoryId ORDER BY categoryId ASC";
@@ -215,7 +225,11 @@
             <?php if ($_POST['table'] == 'post') : ?>
                 <label for="category">Category</label>
                 <select name="category" id="category">
-                    <option value="<?= $row['categoryId'] ?>" selected hidden><?= $row['categoryName'] ?></option>
+                    <?php if ($post['categoryId'] != NULL) : ?>
+                        <option value="<?= $post['categoryId'] ?>" selected hidden><?= $post['categoryName'] ?></option>
+                    <?php else : ?>
+                        <option value="1" selected hidden>None</option>
+                    <?php endif ?>
                     <?php while ($category = $statement->fetch()) : ?>
                         <option value="<?= $category['categoryId']?>"><?= $category['categoryName'] ?></option>
                     <?php endwhile ?>
@@ -224,7 +238,7 @@
             <br>
             <span>
                 <button type="submit" name="submit" value="update">Update</button>
-                <button type="submit" name="submit" value="delete" onclick="confirm('Are you sure you want to delete?')">Delete</button>
+                <button type="submit" name="submit" value="delete" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
             </span>
         </form>
     <?php endif ?>

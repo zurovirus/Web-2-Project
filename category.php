@@ -34,10 +34,25 @@
             header("Location: category.php");
             exit;
         }
+
+        if ($_POST['post'] == "update")
+        {
+            $query = "UPDATE category SET categoryName = :categoryName WHERE categoryId = :categoryId";
+            
+            $statement = $db->prepare($query);
+                
+            $statement->bindValue(":categoryId", $_POST['id'], PDO::PARAM_INT);
+            $statement->bindValue(":categoryName", $_POST['edit']);
+
+            $statement->execute();
+    
+            header("Location: category.php");
+            exit;
+        }
     }
     
     // A select query based off the id in descending order up to 5 records.
-    $selectQuery = "SELECT * FROM category ORDER BY categoryName ASC";
+    $selectQuery = "SELECT * FROM category WHERE categoryId > 1 ORDER BY categoryName";
 
     // Prepares the data for the query.
     $statement = $db->prepare($selectQuery);
@@ -60,9 +75,16 @@
     <?php while ($category = $statement->fetch()) : ?>
         <div class="categories">
             <form action="category.php" method="post">
-                <input type="hidden" name="id" value="<?= $category['categoryId'] ?>">
-                <label><?= $category['categoryName'] ?></label>
-                <button type="submit" name="post" value="delete">Delete</button>
+                <?php if ($_POST && $_POST['post'] == 'edit ' . $category['categoryId']) : ?>
+                    <input type="hidden" name="id" value="<?= $category['categoryId'] ?>">
+                    <input type="text" name="edit" value=<?= $category['categoryName'] ?> autofocus  onfocus="this.select()">
+                    <button type="submit" name="post" value="update">Update</button>
+                <?php else : ?>
+                    <input type="hidden" name="id" value="<?= $category['categoryId'] ?>">
+                    <label><?= $category['categoryName'] ?></label>
+                    <button type="submit" name="post" value="edit <?= $category['categoryId'] ?>" >Edit</button>
+                    <button type="submit" name="post" value="delete" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                <?php endif ?>
             </form>
         </div>
     <?php endwhile ?>
