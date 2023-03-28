@@ -44,7 +44,7 @@
                         </form>
                     <?php endif ?> 
                 <?php while ($new = $statement->fetch()) : ?>
-                    <div class="news">
+                    <div class="my-4">
                         <h2> <?= $new['title'] ?></h2>
                         <p> <?= date("F d, Y, g:i a", strtotime($new['date'])) ?></p>
                         <p>By: <a href="member.php?userId=<?= $new['userId'] ?>"><?= $new['userName'] ?></a></p>

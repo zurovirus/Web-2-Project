@@ -11,16 +11,47 @@
     session_start();
 
     if (!$_POST){
-        // A select query based off the id in descending order up to 10 records.
-        $selectQuery = "SELECT p.userId AS oUserId, u.userName AS oUserName, e.userId AS eUserId, e.userName AS eUserName,
-                        p.title, p.postId, p.content, p.dateCreated, p.updated FROM posts p LEFT OUTER JOIN users e 
-                        ON e.userId = p.userEditId LEFT OUTER JOIN users u ON u.userId = p.userId ORDER BY postId DESC LIMIT 10";
+        if(isset($_GET['categoryId'])){
+            
+            $id = filter_input(INPUT_GET, 'categoryId', FILTER_SANITIZE_NUMBER_INT);
+            
+            if ($id == 1)
+            {
+                $getQuery = "SELECT p.userId AS oUserId, u.userName AS oUserName, e.userId AS eUserId, e.userName AS eUserName,
+                            p.title, p.postId, p.content, p.dateCreated, p.updated FROM posts p LEFT OUTER JOIN 
+                            users e ON e.userId = p.userEditId LEFT OUTER JOIN users u ON u.userId = p.userId  WHERE p.categoryId >= $id ORDER BY p.postId DESC";
+            }
+            else{
+                $getQuery = "SELECT p.userId AS oUserId, u.userName AS oUserName, e.userId AS eUserId, e.userName AS eUserName,
+                                        p.title, p.postId, p.content, p.dateCreated, p.updated FROM posts p LEFT OUTER JOIN 
+                                        users e ON e.userId = p.userEditId LEFT OUTER JOIN users u ON u.userId = p.userId  WHERE p.categoryId = $id ORDER BY p.postId DESC";
+            }
+            $statement = $db->prepare($getQuery);
 
-        // Prepares the data for the query.
-        $statement = $db->prepare($selectQuery);
+            $statement->execute();
 
-        // Execute the SELECT.
-        $statement->execute();
+            $count = $statement->rowCount();
+
+            if ($id != $_GET['categoryId']) 
+            {
+                header("Location: index.php");
+                exit;
+            }
+        }
+        else{
+            // A select query based off the id in descending order up to 10 records.
+            $selectQuery = "SELECT p.userId AS oUserId, u.userName AS oUserName, e.userId AS eUserId, e.userName AS eUserName,
+                            p.title, p.postId, p.content, p.dateCreated, p.updated FROM posts p LEFT OUTER JOIN users e 
+                            ON e.userId = p.userEditId LEFT OUTER JOIN users u ON u.userId = p.userId ORDER BY postId DESC LIMIT 10";
+
+            // Prepares the data for the query.
+            $statement = $db->prepare($selectQuery);
+
+            // Execute the SELECT.
+            $statement->execute();
+
+            $count = $statement->rowCount();
+        }
     }
     else{
         if (isset($_POST['sorted']))
@@ -38,6 +69,8 @@
     
             // Execute the SELECT.
             $statement->execute();
+
+            $count = $statement->rowCount();
         }
 
         if (isset($_POST['category']))
@@ -52,6 +85,8 @@
 
             $statement = $db->prepare($selectQuery);
             $statement->execute();
+
+            $count = $statement->rowCount();
         }
     }
 ?>
@@ -78,25 +113,28 @@
                     </form>   
                     </br>
                 <?php endif ?> 
-            <?php if (isset($_SESSION['user'])) : ?>
-                <form action="lfp.php" method="post">
-                <select name="sort" id="sort">
+            <?php if (isset($_SESSION['user']) && $count > 1) : ?>
+                <form class="input-group ms-auto" action="lfp.php" method="post">
+                <?php if (isset($_POST['sorted'])) : ?>
+                    <label class="form-label"for="sort">Posts sorted by: <?= $sort ?> <?= $order ?></label>
+                <?php endif ?>
+                <select class="form-select me-2" name="sort" id="sort">
                     <option value="title">Title</option>
                     <option value="dateCreated">Created</option>
                     <option value="updated">Updated</option>
                 </select>
-                <select name="order" id="order">
+                <select class="form-select me-2" name="order" id="order">
                     <option value="ASC">Oldest</option>
                     <option value="DESC">Newest</option>
                 </select>
-                    <button type="submit" name="sorted" value="sort">Sort</button> 
+                    <button class="btn btn-outline-success my-sm-0" type="submit" name="sorted" value="sort">Sort</button> 
                 </form>
             <?php endif ?> 
-            <?php if (isset($_POST['sorted'])) : ?>
-                <p>Posts sorted by: <?= $sort ?> <?= $order ?></p>
+            <?php if (isset($count) && $count == 0) : ?>
+                <h2>No results found.</h2>
             <?php endif ?>
             <?php while ($post = $statement->fetch()) : ?>
-                <div class="posts">
+                <div class="my-4">
                     <h2> <a href="post.php?postId=<?= $post['postId'] ?>"><?= $post['title'] ?></a></h2>
                     <p class="date"> Date created: <?= date("F d, Y, g:i a", strtotime($post['dateCreated'])) ?></p>
                     <p>By: <a href="member.php?userId=<?= $post['oUserId'] ?>"><?= $post['oUserName'] ?></a></p>
@@ -106,7 +144,7 @@
                     <?php endif ?>
                     <?php if (isset($_SESSION['userId'])) : ?>
                         <?php if ($_SESSION['userId'] == $post['oUserId'] || $_SESSION['authorization'] >= 3) : ?>
-                            <form action="edit.php?postId=<?= $post['oUserId'] ?>" method="post">
+                            <form action="edit.php?postId=<?= $post['postId'] ?>" method="post">
                             <button type="submit" name="table" value="post">Edit</button>
                             </form>     
                         <?php endif ?>

@@ -10,15 +10,16 @@
 
 ?>
 <div class="col-sm-2">
-<aside class= "container">
+<aside class= "container"> 
     <ul class="list-group" style="width: 300px";>
+    <h3 class="mx-auto my-4">Adventurers In Need</h3>
         <?php while ($aside = $asides->fetch()) : ?>
-            <li class="list-group-item justfiy-content-between align-items-center">
-                <h4> <a href="post.php?postId= <?= $aside['postId'] ?>"><?= $aside['title'] ?></a></h3>
+            <li class="list-group-item">
+                <h4 class="mx-auto"> <a href="post.php?postId= <?= $aside['postId'] ?>"><?= $aside['title'] ?></a></h3>
                 <?php if (strlen($aside['content']) > 50) : ?>
                     <p> <?= substr($aside['content'], 0, 50) . "..." ?><br><a href="post.php?postId=<?= $aside['postId'] ?>">Investigate further...</a></p>
                 <?php else : ?>
-                    <p> <?= $aside['content'] ?></p>
+                    <p><?= $aside['content'] ?></p>
                 <?php endif ?>
             </li>
         <?php endwhile ?>
