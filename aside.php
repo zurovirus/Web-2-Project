@@ -15,7 +15,7 @@
     <h3 class="mx-auto my-4">Adventurers In Need</h3>
         <?php while ($aside = $asides->fetch()) : ?>
             <li class="list-group-item">
-                <h4 class="mx-auto"> <a href="post.php?postId= <?= $aside['postId'] ?>"><?= $aside['title'] ?></a></h3>
+                <h4 class="mx-auto"> <a href="post.php?postId=<?= $aside['postId'] ?>"><?= $aside['title'] ?></a></h3>
                 <?php if (strlen($aside['content']) > 50) : ?>
                     <p> <?= substr($aside['content'], 0, 50) . "..." ?><br><a href="post.php?postId=<?= $aside['postId'] ?>">Investigate further...</a></p>
                 <?php else : ?>
