@@ -52,6 +52,7 @@
 </head>
 <body>
 <?php include('header.php') ?>
+<?php include('aside.php') ?>
     <div class="posts">
     <?php if (!empty($_POST)) : ?>
         <input type="hidden" name="edit" value="<?= $_POST['table'] ?>">

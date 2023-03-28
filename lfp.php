@@ -12,13 +12,9 @@
 
     if (!$_POST){
         // A select query based off the id in descending order up to 10 records.
-        $selectQuery = "SELECT * FROM posts INNER JOIN users ON users.userId = posts.userId ORDER BY postId DESC LIMIT 10";
-        $editQuery = "SELECT * FROM posts INNER JOIN users ON users.userId = posts.userEditId";
-
-        $statement = $db->prepare($editQuery);
-
-        $statement->execute();
-        $editName = $statement->fetch();
+        $selectQuery = "SELECT p.userId AS oUserId, u.userName AS oUserName, e.userId AS eUserId, e.userName AS eUserName,
+                        p.title, p.postId, p.content, p.dateCreated, p.updated FROM posts p LEFT OUTER JOIN users e 
+                        ON e.userId = p.userEditId LEFT OUTER JOIN users u ON u.userId = p.userId ORDER BY postId DESC LIMIT 10";
 
         // Prepares the data for the query.
         $statement = $db->prepare($selectQuery);
@@ -27,26 +23,37 @@
         $statement->execute();
     }
     else{
-        $sort = $_POST['sort'];
-        $order = $_POST['order'];
+        if (isset($_POST['sorted']))
+        {
+            $sort = $_POST['sort'];
+            $order = $_POST['order'];
+    
+            // A select query based off the id in descending order up to 5 records.
+            $selectQuery = "SELECT p.userId AS oUserId, u.userName AS oUserName, e.userId AS eUserId, e.userName AS eUserName,
+            p.title, p.postId, p.content, p.dateCreated, p.updated FROM posts p LEFT OUTER JOIN users e 
+            ON e.userId = p.userEditId LEFT OUTER JOIN users u ON u.userId = p.userId ORDER BY $sort $order LIMIT 10";
 
-        // A select query based off the id in descending order up to 5 records.
-        $selectQuery = "SELECT * FROM posts INNER JOIN users ON users.userId = posts.userId ORDER BY $sort $order LIMIT 10";
-        $editQuery = "SELECT * FROM posts INNER JOIN users ON users.userId = posts.userEditId";
+            // Prepares the data for the query.
+            $statement = $db->prepare($selectQuery);
+    
+            // Execute the SELECT.
+            $statement->execute();
+        }
 
-        $statement = $db->prepare($editQuery);
+        if (isset($_POST['category']))
+        {
+            $categorySort = $_POST['category'];
+            $search = $_POST['search'];
 
-        $statement->execute();
-        $editName = $statement->fetch();
+            $selectQuery = "SELECT p.userId AS oUserId, u.userName AS oUserName, e.userId AS eUserId, e.userName AS eUserName,
+                            p.title, p.postId, p.content, p.dateCreated, p.updated FROM posts p LEFT OUTER JOIN 
+                            users e ON e.userId = p.userEditId LEFT OUTER JOIN users u ON u.userId = p.userId  WHERE (p.content 
+                            LIKE '%$search%' OR p.title LIKE '%$search%' OR u.userName LIKE '%$search%') AND p.categoryId $categorySort ORDER BY p.postId DESC";
 
-
-        // Prepares the data for the query.
-        $statement = $db->prepare($selectQuery);
-
-        // Execute the SELECT.
-        $statement->execute();
+            $statement = $db->prepare($selectQuery);
+            $statement->execute();
+        }
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -60,6 +67,7 @@
 </head>
 <body>
     <?php include('header.php') ?>
+    <?php include('aside.php') ?>
         <?php if (isset($_SESSION['user'])) : ?>
             <form action="create.php" method="post">
             <button type="submit" name="table" value="post">New Post</button> 
@@ -78,24 +86,24 @@
             <option value="ASC">Oldest</option>
             <option value="DESC">Newest</option>
         </select>
-            <button type="submit">Sort</button> 
+            <button type="submit" name="sorted" value="sort">Sort</button> 
         </form>
     <?php endif ?> 
-    <?php if ($_POST) : ?>
+    <?php if (isset($_POST['sorted'])) : ?>
         <p>Posts sorted by: <?= $sort ?> <?= $order ?></p>
     <?php endif ?>
     <?php while ($post = $statement->fetch()) : ?>
         <div class="posts">
-            <h2> <a href="post.php?postId=<?= $post['postId'] ?>"><?= $post['title'] ?></a></h2>
+            <h2> <a href="post.php?postId=<?= $post['oUserId'] ?>"><?= $post['title'] ?></a></h2>
             <p class="date"> Date created: <?= date("F d, Y, g:i a", strtotime($post['dateCreated'])) ?></p>
-            <p>By: <a href="member.php?userId=<?= $post['userId'] ?>"><?= $post['userName'] ?></a></p>
+            <p>By: <a href="member.php?userId=<?= $post['oUserId'] ?>"><?= $post['oUserName'] ?></a></p>
             <p> <?= $post['content'] ?></p>
             <?php if ($post['updated'] != null) : ?>
-                <p class="date"> Edit By: <a href="member.php?userId=<?= $post['userEditId'] ?>"><?= $post['userName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($post['updated'])) ?></p>
+                <p class="date"> Edit By: <a href="member.php?userId=<?= $post['eUserId'] ?>"><?= $post['eUserName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($post['updated'])) ?></p>
             <?php endif ?>
             <?php if (isset($_SESSION['userId'])) : ?>
-                <?php if ($_SESSION['userId'] == $post['userId'] || $_SESSION['authorization'] >= 3) : ?>
-                    <form action="edit.php?postId=<?= $post['postId'] ?>" method="post">
+                <?php if ($_SESSION['userId'] == $post['oUserId'] || $_SESSION['authorization'] >= 3) : ?>
+                    <form action="edit.php?postId=<?= $post['oUserId'] ?>" method="post">
                     <button type="submit" name="table" value="post">Edit</button>
                     </form>     
                 <?php endif ?>

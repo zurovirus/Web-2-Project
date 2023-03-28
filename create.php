@@ -131,6 +131,7 @@
     <!-- Remember that alternative syntax is good and html inside php is bad -->
     <!-- If an error occurs, the error page will be displayed, else the form displays. -->
     <?php include('header.php') ?>
+    <?php include('aside.php') ?>
     <?php if ($error) : ?>
         <h1>An error has occurred.</h1>    
         <?php foreach ($errorMessages as $errorMessage) : ?>

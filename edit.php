@@ -209,6 +209,7 @@
         <a class="home" href="index.php">Return Home</a>
     <?php else : ?>
         <?php include('header.php') ?>
+        <?php include('aside.php') ?>
         <form method="post">
             <input type="hidden" name=<?= $tableid ?> value="<?= $row[$tableid] ?>">
             <input type="hidden" name="edit" value="<?= $_POST['table'] ?>">

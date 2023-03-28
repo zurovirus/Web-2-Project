@@ -37,6 +37,7 @@
 </head>
 <body>
 <?php include('header.php') ?>
+<?php include('aside.php') ?>
     <div class="user">
         <h2><?= $user['userName'] ?></h2>
         <p><?= $user['fullName'] ?></p>

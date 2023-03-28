@@ -33,6 +33,7 @@
 </head>
 <body>
     <?php include('header.php') ?>
+    <?php include('aside.php') ?>
     <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
             <form action="create.php" method="post">
             <button type="submit" name="table" value="new">New Post</button> 

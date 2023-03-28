@@ -65,6 +65,7 @@
 </head>
 <body>
     <?php include('header.php') ?>
+    <?php include('aside.php') ?>
     <?php if ($error) : ?>
         <h1>An error has occurred.</h1>
         <?php foreach ($errorMessages as $errorMessage) : ?>

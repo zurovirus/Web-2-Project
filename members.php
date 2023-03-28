@@ -29,6 +29,7 @@
 </head>
 <body>
     <?php include('header.php') ?>
+    <?php include('aside.php') ?>
     <?php while ($user = $statement->fetch()) : ?>
         <div class="users">
             <h2> <a href="member.php?userId=<?= $user['userId'] ?>"><?= $user['userName'] ?></a></h2>  

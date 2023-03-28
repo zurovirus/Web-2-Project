@@ -5,13 +5,16 @@
 
     if ($_POST)
     {
+        $filteredCategory  = filter_input(INPUT_POST, 'category', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $filteredId = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+
         if ($_POST['post'] == "add")
         {
             $query = "INSERT INTO category (categoryName) VALUES (:categoryName)";
     
             $statement = $db->prepare($query);
                 
-            $statement->bindValue(":categoryName", $_POST['category']);
+            $statement->bindValue(":categoryName", $filteredCategory);
             
             // Execute the INSERT.
             $statement->execute();
@@ -26,7 +29,7 @@
 
             $statement = $db->prepare($query);
                 
-            $statement->bindValue(":categoryId", $_POST['id'], PDO::PARAM_INT);
+            $statement->bindValue(":categoryId", $filteredId, PDO::PARAM_INT);
             
             // Execute the INSERT.
             $statement->execute();
@@ -41,8 +44,8 @@
             
             $statement = $db->prepare($query);
                 
-            $statement->bindValue(":categoryId", $_POST['id'], PDO::PARAM_INT);
-            $statement->bindValue(":categoryName", $_POST['edit']);
+            $statement->bindValue(":categoryId", $filteredId, PDO::PARAM_INT);
+            $statement->bindValue(":categoryName", $filteredCategory);
 
             $statement->execute();
     
@@ -52,7 +55,7 @@
     }
     
     // A select query based off the id in descending order up to 5 records.
-    $selectQuery = "SELECT * FROM category WHERE categoryId > 1 ORDER BY categoryName";
+    $selectQuery = "SELECT * FROM category WHERE categoryId > 1 ORDER BY categoryName ASC";
 
     // Prepares the data for the query.
     $statement = $db->prepare($selectQuery);
@@ -71,18 +74,19 @@
 </head>
 <body>
     <?php include('header.php') ?>
+    <?php include('aside.php') ?>
     <h2>Categories List</h2>
     <?php while ($category = $statement->fetch()) : ?>
         <div class="categories">
             <form action="category.php" method="post">
                 <?php if ($_POST && $_POST['post'] == 'edit ' . $category['categoryId']) : ?>
                     <input type="hidden" name="id" value="<?= $category['categoryId'] ?>">
-                    <input type="text" name="edit" value=<?= $category['categoryName'] ?> autofocus  onfocus="this.select()">
+                    <input type="text" name="category" value=<?= $category['categoryName'] ?> autofocus  onfocus="this.select()">
                     <button type="submit" name="post" value="update">Update</button>
                 <?php else : ?>
                     <input type="hidden" name="id" value="<?= $category['categoryId'] ?>">
                     <label><?= $category['categoryName'] ?></label>
-                    <button type="submit" name="post" value="edit <?= $category['categoryId'] ?>" >Edit</button>
+                    <button type="submit" name="post" value="edit <?= $category['categoryId'] ?>">Edit</button>
                     <button type="submit" name="post" value="delete" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
                 <?php endif ?>
             </form>
