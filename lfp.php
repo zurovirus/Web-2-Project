@@ -62,53 +62,60 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="main.css">
     <title>Party Finder</title>
 </head>
 <body>
     <?php include('header.php') ?>
-    <?php include('aside.php') ?>
-        <?php if (isset($_SESSION['user'])) : ?>
-            <form action="create.php" method="post">
-            <button type="submit" name="table" value="post">New Post</button> 
-            </form>   
-            </br>
-        <?php endif ?> 
-    </div>
-    <?php if (isset($_SESSION['user'])) : ?>
-        <form action="lfp.php" method="post">
-        <select name="sort" id="sort">
-            <option value="title">Title</option>
-            <option value="dateCreated">Created</option>
-            <option value="updated">Updated</option>
-        </select>
-        <select name="order" id="order">
-            <option value="ASC">Oldest</option>
-            <option value="DESC">Newest</option>
-        </select>
-            <button type="submit" name="sorted" value="sort">Sort</button> 
-        </form>
-    <?php endif ?> 
-    <?php if (isset($_POST['sorted'])) : ?>
-        <p>Posts sorted by: <?= $sort ?> <?= $order ?></p>
-    <?php endif ?>
-    <?php while ($post = $statement->fetch()) : ?>
-        <div class="posts">
-            <h2> <a href="post.php?postId=<?= $post['oUserId'] ?>"><?= $post['title'] ?></a></h2>
-            <p class="date"> Date created: <?= date("F d, Y, g:i a", strtotime($post['dateCreated'])) ?></p>
-            <p>By: <a href="member.php?userId=<?= $post['oUserId'] ?>"><?= $post['oUserName'] ?></a></p>
-            <p> <?= $post['content'] ?></p>
-            <?php if ($post['updated'] != null) : ?>
-                <p class="date"> Edit By: <a href="member.php?userId=<?= $post['eUserId'] ?>"><?= $post['eUserName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($post['updated'])) ?></p>
+    <div class="container">
+        <div class="row">
+            <div class="col" id="content">
+                <?php if (isset($_SESSION['user'])) : ?>
+                    <form action="create.php" method="post">
+                    <button type="submit" name="table" value="post">New Post</button> 
+                    </form>   
+                    </br>
+                <?php endif ?> 
+            <?php if (isset($_SESSION['user'])) : ?>
+                <form action="lfp.php" method="post">
+                <select name="sort" id="sort">
+                    <option value="title">Title</option>
+                    <option value="dateCreated">Created</option>
+                    <option value="updated">Updated</option>
+                </select>
+                <select name="order" id="order">
+                    <option value="ASC">Oldest</option>
+                    <option value="DESC">Newest</option>
+                </select>
+                    <button type="submit" name="sorted" value="sort">Sort</button> 
+                </form>
+            <?php endif ?> 
+            <?php if (isset($_POST['sorted'])) : ?>
+                <p>Posts sorted by: <?= $sort ?> <?= $order ?></p>
             <?php endif ?>
-            <?php if (isset($_SESSION['userId'])) : ?>
-                <?php if ($_SESSION['userId'] == $post['oUserId'] || $_SESSION['authorization'] >= 3) : ?>
-                    <form action="edit.php?postId=<?= $post['oUserId'] ?>" method="post">
-                    <button type="submit" name="table" value="post">Edit</button>
-                    </form>     
-                <?php endif ?>
-            <?php endif ?>
+            <?php while ($post = $statement->fetch()) : ?>
+                <div class="posts">
+                    <h2> <a href="post.php?postId=<?= $post['postId'] ?>"><?= $post['title'] ?></a></h2>
+                    <p class="date"> Date created: <?= date("F d, Y, g:i a", strtotime($post['dateCreated'])) ?></p>
+                    <p>By: <a href="member.php?userId=<?= $post['oUserId'] ?>"><?= $post['oUserName'] ?></a></p>
+                    <p> <?= $post['content'] ?></p>
+                    <?php if ($post['updated'] != null) : ?>
+                        <p class="date"> Edit By: <a href="member.php?userId=<?= $post['eUserId'] ?>"><?= $post['eUserName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($post['updated'])) ?></p>
+                    <?php endif ?>
+                    <?php if (isset($_SESSION['userId'])) : ?>
+                        <?php if ($_SESSION['userId'] == $post['oUserId'] || $_SESSION['authorization'] >= 3) : ?>
+                            <form action="edit.php?postId=<?= $post['oUserId'] ?>" method="post">
+                            <button type="submit" name="table" value="post">Edit</button>
+                            </form>     
+                        <?php endif ?>
+                    <?php endif ?>
+                </div>
+            <?php endwhile ?>
+            </div>           
+            <?php include('aside.php') ?>
         </div>
-    <?php endwhile ?>
+    </div> 
 </body>
 </html>

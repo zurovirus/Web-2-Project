@@ -28,30 +28,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="main.css">
     <title>Party Finder</title>
 </head>
 <body>
     <?php include('header.php') ?>
-    <?php include('aside.php') ?>
-    <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
-            <form action="create.php" method="post">
-            <button type="submit" name="table" value="new">New Post</button> 
-            </form>
-        <?php endif ?> 
-    <?php while ($new = $statement->fetch()) : ?>
-        <div class="news">
-            <h2> <?= $new['title'] ?></h2>
-            <p> <?= date("F d, Y, g:i a", strtotime($new['date'])) ?></p>
-            <p>By: <a href="member.php?userId=<?= $new['userId'] ?>"><?= $new['userName'] ?></a></p>
-            <p> <?= $new['content'] ?></p>
-            <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
-                <form action="edit.php?newId=<?= $new['newId'] ?>" method="post">
-                <button type="submit" name="table" value="new">Edit</button>
-                </form>    
-            <?php endif ?> 
-        </div>
-    <?php endwhile ?>
-
+    <div class="container">
+        <div class="row">
+            <div class="col" id="content">
+                <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
+                        <form action="create.php" method="post">
+                        <button type="submit" name="table" value="new">New Post</button> 
+                        </form>
+                    <?php endif ?> 
+                <?php while ($new = $statement->fetch()) : ?>
+                    <div class="news">
+                        <h2> <?= $new['title'] ?></h2>
+                        <p> <?= date("F d, Y, g:i a", strtotime($new['date'])) ?></p>
+                        <p>By: <a href="member.php?userId=<?= $new['userId'] ?>"><?= $new['userName'] ?></a></p>
+                        <p> <?= $new['content'] ?></p>
+                        <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
+                            <form action="edit.php?newId=<?= $new['newId'] ?>" method="post">
+                            <button type="submit" name="table" value="new">Edit</button>
+                            </form>    
+                        <?php endif ?> 
+                    </div>
+                <?php endwhile ?>
+            </div>   
+            <?php include('aside.php') ?> 
+         </div>
+    </div>             
 </body>
 </html>
