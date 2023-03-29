@@ -123,6 +123,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="tinymce/tinymce.min.js"></script>
     <title>My Blog Post!</title>
@@ -131,38 +133,44 @@
     <!-- Remember that alternative syntax is good and html inside php is bad -->
     <!-- If an error occurs, the error page will be displayed, else the form displays. -->
     <?php include('header.php') ?>
-    <?php include('aside.php') ?>
-    <?php if ($error) : ?>
-        <h1>An error has occurred.</h1>    
-        <?php foreach ($errorMessages as $errorMessage) : ?>
-            <p><?= $errorMessage ?> </p>
-        <?php endforeach ?>
-        <a class="home" href="index.php">Return Home</a>
-    <?php else : ?>
-        <form action="create.php" method="post">
-            <label for="title">Title</label>
-            </br>  
-            <input type="text" name="title" id="title">
-            </br> 
-            <label for="content">Content</label>
-            <textarea name="content" id="content" cols="60" rows="10"></textarea>
-            <script type="text/javascript">tinyMCE.init({
-                selector : "#content"
-                });
-            </script>
-            <?php if ($_POST['table'] == 'post') : ?>
-                <label for="category">Category</label>
-                <select name="category" id="category">
-                    <option value="">--</option>
-                    <?php while ($category = $statement->fetch()) : ?>
-                        <option value="<?= $category['categoryId']?>"><?= $category['categoryName'] ?></option>
-                    <?php endwhile ?>
-                </select>     
-            <?php endif ?>
-            <span>
-                <button type="submit" name="edit" value="<?= $_POST['table'] ?>">Post</button>
-            </span>
-        </form>
-    <?php endif ?>
+    <div class="container">
+        <div class="row">
+            <div class="col" id="content">
+                <?php if ($error) : ?>
+                    <h1>An error has occurred.</h1>    
+                    <?php foreach ($errorMessages as $errorMessage) : ?>
+                        <p><?= $errorMessage ?> </p>
+                    <?php endforeach ?>
+                    <a class="home" href="index.php">Return Home</a>
+                <?php else : ?>
+                    <form action="create.php" method="post">
+                        <label for="title">Title</label>
+                        </br>  
+                        <input type="text" name="title" id="title">
+                        </br> 
+                        <label for="content">Content</label>
+                        <textarea name="content" id="content" cols="60" rows="10"></textarea>
+                        <script type="text/javascript">tinyMCE.init({
+                            selector : "#content"
+                            });
+                        </script>
+                        <?php if ($_POST['table'] == 'post') : ?>
+                            <label for="category">Category</label>
+                            <select name="category" id="category">
+                                <option value="">--</option>
+                                <?php while ($category = $statement->fetch()) : ?>
+                                    <option value="<?= $category['categoryId']?>"><?= $category['categoryName'] ?></option>
+                                <?php endwhile ?>
+                            </select>     
+                        <?php endif ?>
+                        <span>
+                            <button type="submit" name="edit" value="<?= $_POST['table'] ?>">Post</button>
+                        </span>
+                    </form>
+                <?php endif ?>
+            </div>   
+        <?php include('aside.php') ?> 
+        </div>
+    </div>     
 </body>
 </html>

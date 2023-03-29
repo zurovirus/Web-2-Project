@@ -106,23 +106,25 @@
                 <input type="hidden" name="edit" value="<?= $_POST['table'] ?>">
             <?php endif ?>
             <div class="my-4">
-                <h2><?= $posts['title'] ?></h2>
-                <p class="date">Date created: <?= date("F d, Y, g:i a", strtotime($posts['dateCreated'])) ?></p>
-                <p>By: <a href="member.php?userId=<?= $posts['userId'] ?>"><?= $posts['userName'] ?></a></p>
-                <p><?= $posts['content'] ?></p>
+                <h2 class="my-3"><?= $posts['title'] ?></h2>
+                <p class="my-1">Date created: <?= date("F d, Y, g:i a", strtotime($posts['dateCreated'])) ?></p>
+                <p class="my-1">By: <a href="member.php?userId=<?= $posts['userId'] ?>"><?= $posts['userName'] ?></a></p>
+                <p class="my-2"><?= $posts['content'] ?></p>
                 <?php if ($posts['updated'] != null) : ?>
-                        <p class="date">Edited by: <a href="member.php?userId=<?= $editName['userEditId'] ?>">
+                        <p class="my-2">Edited by: <a href="member.php?userId=<?= $editName['userEditId'] ?>">
                         <?= $editName['userName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($posts['updated'])) ?></p>
                 <?php endif ?>
                 <?php if (isset($_SESSION['userId'])) : ?>
                     <?php if ($_SESSION['userId'] == $posts['userId'] || $_SESSION['authorization'] >= 3) : ?>
                         <form action="edit.php?postId=<?= $posts['postId'] ?>" method="post">
-                        <button type="submit" name="table" value="post">Edit</button>
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-outline-primary btn-sm" type="submit" name="table" value="post">Edit</button>
+                        </div>
                         </form>     
                     <?php endif ?>
                 <?php endif ?>
                 <?php if ($rowcount != 0) : ?>
-                    <h4>Comments</h4>
+                    <h4 class="mt-4">Comments</h4>
                     <?php while ($comment = $commentStatement->fetch()) : ?>
                         <?php if ($comment['userId'] == NULL) : ?>
                             <p class="fst-italic my-0 ms-2">anonymous</p>
@@ -133,19 +135,21 @@
                         <p class="lh-sm my-2 ms-4"><?= $comment['content'] ?></p>
                         <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
                             <form action="post.php?postId=<?= $posts['postId'] ?>" method="post">
-                            <button class="btn btn-outline-success mx-auto my-2" type="submit" name="delete" value=<?= $comment['commentId'] ?> 
-                            onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                            <div class="d-flex justify-content-evenly">
+                                <button class="btn btn-outline-danger btn-sm my-2" type="submit" name="delete" value=<?= $comment['commentId'] ?> 
+                                    onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                            </div>
                             </form>  
                         <?php endif ?>
                     <?php endwhile ?>
                 <?php endif ?>
             </div>
             <form action="post.php?postId=<?= $posts['postId'] ?>" method="post">
-                <label for="comment" class="my-2">Add a comment</label>
-                    </br>
-                <textarea name="comment" id="comment" cols="50" rows="10"></textarea>
-                    </br>
-                <button class="btn btn-outline-success mx-auto my-2" type="submit" name="button" value="comment">Submit</button>
+                <label for="comment" class="d-flex my-2">Add a comment</label>
+                <textarea name="comment" id="comment" cols="60" rows="5"></textarea>
+                <div class="d-flex justify-content-evenly">
+                    <button class="btn btn-outline-success my-2" type="submit" name="button" value="comment">Submit</button>
+                </div>
             </form>
         </div>
         <?php include('aside.php') ?>

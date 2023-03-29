@@ -113,44 +113,46 @@
                     </form>   
                     </br>
                 <?php endif ?> 
-            <?php if (isset($_SESSION['user']) && $count > 1) : ?>
-                <form class="input-group ms-auto" action="lfp.php" method="post">
-                <?php if (isset($_POST['sorted'])) : ?>
-                    <label class="form-label"for="sort">Posts sorted by: <?= $sort ?> <?= $order ?></label>
+                <?php if (isset($_SESSION['user']) && $count > 1) : ?>
+                    <form class="input-group ms-auto" action="lfp.php" method="post">
+                    <select class="form-select me-2" name="sort" id="sort">
+                        <option value="title">Title</option>
+                        <option value="dateCreated">Created</option>
+                        <option value="updated">Updated</option>
+                    </select>
+                    <select class="form-select me-2" name="order" id="order">
+                        <option value="ASC">Oldest</option>
+                        <option value="DESC">Newest</option>
+                    </select>
+                        <button class="btn btn-outline-warning my-sm-0" type="submit" name="sorted" value="sort">Sort</button> 
+                    </form>
+                    <?php if (isset($_POST['sorted'])) : ?>
+                        <label class="form-label mx-auto my-2"for="sort">Posts sorted by: <?= $sort ?> <?= $order ?></label>
+                    <?php endif ?>
+                <?php endif ?> 
+                <?php if (isset($count) && $count == 0) : ?>
+                    <h2>No results found.</h2>
                 <?php endif ?>
-                <select class="form-select me-2" name="sort" id="sort">
-                    <option value="title">Title</option>
-                    <option value="dateCreated">Created</option>
-                    <option value="updated">Updated</option>
-                </select>
-                <select class="form-select me-2" name="order" id="order">
-                    <option value="ASC">Oldest</option>
-                    <option value="DESC">Newest</option>
-                </select>
-                    <button class="btn btn-outline-success my-sm-0" type="submit" name="sorted" value="sort">Sort</button> 
-                </form>
-            <?php endif ?> 
-            <?php if (isset($count) && $count == 0) : ?>
-                <h2>No results found.</h2>
-            <?php endif ?>
-            <?php while ($post = $statement->fetch()) : ?>
-                <div class="my-4">
-                    <h2> <a href="post.php?postId=<?= $post['postId'] ?>"><?= $post['title'] ?></a></h2>
-                    <p class="date"> Date created: <?= date("F d, Y, g:i a", strtotime($post['dateCreated'])) ?></p>
-                    <p>By: <a href="member.php?userId=<?= $post['oUserId'] ?>"><?= $post['oUserName'] ?></a></p>
-                    <p> <?= $post['content'] ?></p>
-                    <?php if ($post['updated'] != null) : ?>
-                        <p class="date"> Edit By: <a href="member.php?userId=<?= $post['eUserId'] ?>"><?= $post['eUserName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($post['updated'])) ?></p>
-                    <?php endif ?>
-                    <?php if (isset($_SESSION['userId'])) : ?>
-                        <?php if ($_SESSION['userId'] == $post['oUserId'] || $_SESSION['authorization'] >= 3) : ?>
-                            <form action="edit.php?postId=<?= $post['postId'] ?>" method="post">
-                            <button type="submit" name="table" value="post">Edit</button>
-                            </form>     
+                <?php while ($post = $statement->fetch()) : ?>
+                    <div class="my-4">
+                        <h2 class="my-3"> <a class="text-decoration-none" href="post.php?postId=<?= $post['postId'] ?>"><?= $post['title'] ?></a></h2>
+                        <p class="my-1"> Date created: <?= date("F d, Y, g:i a", strtotime($post['dateCreated'])) ?></p>
+                        <p class="my-1">By: <a class="text-decoration-none" href="member.php?userId=<?= $post['oUserId'] ?>"><?= $post['oUserName'] ?></a></p>
+                        <p class="my-2"> <?= $post['content'] ?></p>
+                        <?php if ($post['updated'] != null) : ?>
+                            <p class="my-2"> Edit By: <a class="text-decoration-none" href="member.php?userId=<?= $post['eUserId'] ?>"><?= $post['eUserName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($post['updated'])) ?></p>
                         <?php endif ?>
-                    <?php endif ?>
-                </div>
-            <?php endwhile ?>
+                        <?php if (isset($_SESSION['userId'])) : ?>
+                            <?php if ($_SESSION['userId'] == $post['oUserId'] || $_SESSION['authorization'] >= 3) : ?>
+                                <form action="edit.php?postId=<?= $post['postId'] ?>" method="post">
+                                <div class="d-flex justify-content-end">
+                                    <button class="btn btn-outline-primary btn-sm" type="submit" name="table" value="post">Edit</button>
+                                </div>
+                                </form>     
+                            <?php endif ?>
+                        <?php endif ?>
+                    </div>
+                <?php endwhile ?>
             </div>           
             <?php include('aside.php') ?>
         </div>

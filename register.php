@@ -82,31 +82,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
     <title>Document</title>
 </head>
 <body>
     <?php include('header.php') ?>
-    <?php include('aside.php') ?>
-    <?php if ($error) : ?>
-        <h1>An error has occurred.</h1>
-        <?php foreach ($errorMessages as $errorMessage) : ?>
-            <p><?= $errorMessage ?> </p>
-        <?php endforeach ?>
-        <a class="home" href="register.php">Back</a>
-    <?php else : ?>
-    <form action="register.php" method="post">
-        <label for="username">Username: </label>
-        <input type="text" name="username" id="username">
-        <label for="password">Password: </label>
-        <input type="password" name="password" id="password">
-        <label for="confirmpassword">Confirm Password: </label>
-        <input type="password" name="confirmpassword" id="confirmpassword">
-        <label for="name">Name: </label>
-        <input type="text" name="name" id="name">   
-        <label for="password">Email: </label>
-        <input type="email" name="email" id="email">
-        <button type="submit">Register</button>
-    </form>
-    <?php endif ?>
+    <div class="container">
+        <div class="row">
+            <div class="col" id="content">
+                <?php if ($error) : ?>
+                    <h1>An error has occurred.</h1>
+                    <?php foreach ($errorMessages as $errorMessage) : ?>
+                        <p><?= $errorMessage ?> </p>
+                    <?php endforeach ?>
+                    <a class="home" href="register.php">Back</a>
+                <?php else : ?>
+                <form action="register.php" method="post">
+                    <label for="username">Username: </label>
+                    <input type="text" name="username" id="username">
+                    <label for="password">Password: </label>
+                    <input type="password" name="password" id="password">
+                    <label for="confirmpassword">Confirm Password: </label>
+                    <input type="password" name="confirmpassword" id="confirmpassword">
+                    <label for="name">Name: </label>
+                    <input type="text" name="name" id="name">   
+                    <label for="password">Email: </label>
+                    <input type="email" name="email" id="email">
+                    <button type="submit">Register</button>
+                </form>
+                <?php endif ?>
+            </div>   
+            <?php include('aside.php') ?> 
+         </div>
+    </div>     
 </body>
 </html>

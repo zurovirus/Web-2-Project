@@ -45,13 +45,15 @@
                     <?php endif ?> 
                 <?php while ($new = $statement->fetch()) : ?>
                     <div class="my-4">
-                        <h2> <?= $new['title'] ?></h2>
-                        <p> <?= date("F d, Y, g:i a", strtotime($new['date'])) ?></p>
-                        <p>By: <a href="member.php?userId=<?= $new['userId'] ?>"><?= $new['userName'] ?></a></p>
-                        <p> <?= $new['content'] ?></p>
+                        <h2 class="my-3"> <?= $new['title'] ?></h2>
+                        <p class="my-1"> <?= date("F d, Y, g:i a", strtotime($new['date'])) ?></p>
+                        <p class="my-1">By: <a class="text-decoration-none" href="member.php?userId=<?= $new['userId'] ?>"><?= $new['userName'] ?></a></p>
+                        <p class="my-2"> <?= $new['content'] ?></p>
                         <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
                             <form action="edit.php?newId=<?= $new['newId'] ?>" method="post">
-                            <button type="submit" name="table" value="new">Edit</button>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-outline-primary btn-sm"  type="submit" name="table" value="new">Edit</button>
+                            </div>
                             </form>    
                         <?php endif ?> 
                     </div>

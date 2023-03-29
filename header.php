@@ -21,7 +21,7 @@
         <option value="= <?= $catSearch['categoryId']?>"><?= $catSearch['categoryName'] ?></option>
     <?php endwhile ?>
     </select>
-    <button class="btn btn-outline-success mx-2 my-2 my-sm-0" type="submit" name="find" value="find">Investigate</button>
+    <button class="btn btn-outline-warning mx-2 my-2 my-sm-0" type="submit" name="find" value="find">Investigate</button>
 </form>
 </div>
 <div class="jumbotron">
