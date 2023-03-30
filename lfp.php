@@ -104,7 +104,7 @@
 </head>
 <body>
     <?php include('header.php') ?>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col" id="content">
                 <?php if (isset($_SESSION['user'])) : ?>

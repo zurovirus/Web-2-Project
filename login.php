@@ -12,7 +12,7 @@
             $error = true;
             $errorMessages[] .= "Username cannot be empty.";
         }
-
+        
         $usernamecheck = "SELECT * FROM users WHERE userName = :userName LIMIT 1";
 
         $statement = $db->prepare($usernamecheck);
@@ -21,11 +21,10 @@
 
         $statement->execute();
 
+        $fetch = $statement->fetch();
+
+        if ($fetch != null){
         
-
-        if ($statement->fetch() != null){
-            $fetch = $statement->fetch();
-
             $fetchname = $fetch['userName'];
             $fetchPassword = $fetch['password'];
             $fetchAuth = $fetch['authorization'];

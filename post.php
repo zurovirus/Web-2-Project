@@ -99,9 +99,7 @@
 </head>
 <body>
 <?php include('header.php') ?>
-<div class="container">
-    <div class="row">
-        <div class="col" id="content">
+        <div class="col-6">
             <?php if (!empty($_POST) && isset($_POST['table'])) : ?>
                 <input type="hidden" name="edit" value="<?= $_POST['table'] ?>">
             <?php endif ?>
