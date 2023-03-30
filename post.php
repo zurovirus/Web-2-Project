@@ -100,7 +100,7 @@
 <body>
 <?php include('header.php') ?>
 <?php include('login.php') ?>
-        <div class="col">
+        <div class="col ">
             <?php if (!empty($_POST) && isset($_POST['table'])) : ?>
                 <input type="hidden" name="edit" value="<?= $_POST['table'] ?>">
             <?php endif ?>

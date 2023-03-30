@@ -25,23 +25,23 @@
 </form>
 </div>
 <div class="jumbotron">
-    <h1 class="display-4 mb-5"><a href="index.php">Party Finder</a></h1>
+    <h1 class="display-4 mb-5"><a href="index.php" class="text-decoration-none">Party Finder</a></h1>
 </div>
-<nav id="nav" class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav id="nav" class="navbar navbar-expand navbar-dark bg-dark">
     <ul class="navbar-nav">
         <li class="nav-item active mx-4"><a class="nav-link" href="index.php">Home</a></li>
         <li class="nav-item dropdown mx-4">
-        <a class="nav-link dropdown-toggle" href="lfp.php" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown" href="lfp.php" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Looking for Party
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu dropdown-menu-dark text-center" aria-labelledby="navbarDropdown">
             <?php while ($lfpCategory = $lfpStatement->fetch()) : ?>
                 <a class="dropdown-item" href="lfp.php?categoryId=<?= $lfpCategory['categoryId'] ?>"><?= $lfpCategory['categoryName'] ?></a>
             <?php endwhile ?>
         </div>
         </li>
         <?php if (isset($_SESSION['user'])) : ?>
-            <li class="nav-item"><a class="nav-link" href="members.php">Users</a></li>
+            <li class="nav-item mx-4"><a class="nav-link" href="members.php">Users</a></li>
             <?php if ($_SESSION['authorization'] >= 3) : ?>
                 <li class="nav-item mx-4"><a class="nav-link" href="category.php">Category</a></li>
             <?php endif ?>
