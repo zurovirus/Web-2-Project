@@ -202,9 +202,8 @@
 </head>
 <body>
     <?php include('header.php') ?>
-    <div class="container">
-        <div class="row">
-            <div class="col" id="content">
+    <?php include('login.php') ?>
+            <div class="col">
                 <?php if ($error) : ?>
                     <h1>An error has occurred.</h1>
                     <?php foreach ($errorMessages as $errorMessage) : ?>

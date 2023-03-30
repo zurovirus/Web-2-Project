@@ -35,9 +35,8 @@
 </head>
 <body>
     <?php include('header.php') ?>
-    <div class="container">
-        <div class="row">
-            <div class="col" id="content">
+    <?php include('login.php') ?>
+            <div class="col">
                 <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
                         <form action="create.php" method="post">
                         <button type="submit" name="table" value="new">New Post</button> 

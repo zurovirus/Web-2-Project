@@ -77,9 +77,8 @@
 </head>
 <body>
     <?php include('header.php') ?>
-    <div class="container">
-        <div class="row">
-            <div class="col" id="content">
+    <?php include('login.php') ?>
+            <div class="col">
                 <h2>Categories List</h2>
                 <?php while ($category = $statement->fetch()) : ?>
                     <div class="categories">

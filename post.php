@@ -99,17 +99,18 @@
 </head>
 <body>
 <?php include('header.php') ?>
-        <div class="col-6">
+<?php include('login.php') ?>
+        <div class="col">
             <?php if (!empty($_POST) && isset($_POST['table'])) : ?>
                 <input type="hidden" name="edit" value="<?= $_POST['table'] ?>">
             <?php endif ?>
             <div class="my-4">
                 <h2 class="my-3"><?= $posts['title'] ?></h2>
                 <p class="my-1">Date created: <?= date("F d, Y, g:i a", strtotime($posts['dateCreated'])) ?></p>
-                <p class="my-1">By: <a href="member.php?userId=<?= $posts['userId'] ?>"><?= $posts['userName'] ?></a></p>
+                <p class="my-1">By: <a href="member.php?userId=<?= $posts['userId'] ?>" class="text-decoration-none"><?= $posts['userName'] ?></a></p>
                 <p class="my-2"><?= $posts['content'] ?></p>
                 <?php if ($posts['updated'] != null) : ?>
-                        <p class="my-2">Edited by: <a href="member.php?userId=<?= $editName['userEditId'] ?>">
+                        <p class="my-2">Edited by: <a href="member.php?userId=<?= $editName['userEditId'] ?>" class="text-decoration-none">
                         <?= $editName['userName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($posts['updated'])) ?></p>
                 <?php endif ?>
                 <?php if (isset($_SESSION['userId'])) : ?>
@@ -127,9 +128,9 @@
                         <?php if ($comment['userId'] == NULL) : ?>
                             <p class="fst-italic my-0 ms-2">anonymous</p>
                         <?php else : ?>
-                            <p class="my-0 ms-2">By: <a href="member.php?userId=<?= $comment['userId'] ?>"><?= $comment['userName'] ?></a></p>
+                            <p class="my-0 ms-2">By: <a href="member.php?userId=<?= $comment['userId'] ?>" class="text-decoration-none"><?= $comment['userName'] ?></a></p>
                         <?php endif ?>
-                        <p class="my-0 ms-4">Date posted: <?= date("F d, Y, g:i a", strtotime($comment['date'])) ?></p>
+                        <p class="my-0 ms-3">Date posted: <?= date("F d, Y, g:i a", strtotime($comment['date'])) ?></p>
                         <p class="lh-sm my-2 ms-4"><?= $comment['content'] ?></p>
                         <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
                             <form action="post.php?postId=<?= $posts['postId'] ?>" method="post">
@@ -144,13 +145,16 @@
             </div>
             <form action="post.php?postId=<?= $posts['postId'] ?>" method="post">
                 <label for="comment" class="d-flex my-2">Add a comment</label>
-                <textarea name="comment" id="comment" cols="60" rows="5"></textarea>
+                <textarea name="comment" id="comment" cols="52" rows="5"></textarea>
                 <div class="d-flex justify-content-evenly">
                     <button class="btn btn-outline-success my-2" type="submit" name="button" value="comment">Submit</button>
                 </div>
             </form>
         </div>
         <?php include('aside.php') ?>
+    </div>
+    </div>
+    
     </div>
 </div>
 </body>

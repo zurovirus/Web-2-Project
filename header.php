@@ -47,7 +47,7 @@
             <?php endif ?>
             <li class="nav-item mx-4"><a class="nav-link" href="logout.php">Logout</a></li>
         <?php else : ?>
-            <li class="nav-item mx-4"><a class="nav-link" href="login.php">Login</a></li>
+            <li class="nav-item mx-4"><a class="nav-link" href="loginpage.php">Login</a></li>
         <?php endif ?>
     </ul>
 </nav>

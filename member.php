@@ -39,9 +39,8 @@
 </head>
 <body>
 <?php include('header.php') ?>
-<div class="container">
-        <div class="row">
-            <div class="col" id="content">
+<?php include('login.php') ?>
+            <div class="col">
                 <div class="user">
                     <h2><?= $user['userName'] ?></h2>
                     <p><?= $user['fullName'] ?></p>

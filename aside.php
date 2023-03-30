@@ -9,7 +9,7 @@
     $asides->execute();
 
 ?>
-<div class="col-sm-3">
+<div class="col-3">
 <aside class= "container"> 
     <ul class="list-group" style="width: 400px";>
     <h3 class="mx-auto my-4">Adventurers In Need</h3>

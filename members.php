@@ -32,9 +32,8 @@
 </head>
 <body>
     <?php include('header.php') ?>
-    <div class="container">
-        <div class="row">
-            <div class="col" id="content">
+    <?php include('login.php') ?>
+            <div class="col">
                 <?php while ($user = $statement->fetch()) : ?>
                     <div class="users">
                         <h2> <a href="member.php?userId=<?= $user['userId'] ?>"><?= $user['userName'] ?></a></h2>  

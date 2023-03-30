@@ -104,9 +104,8 @@
 </head>
 <body>
     <?php include('header.php') ?>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col" id="content">
+    <?php include('login.php') ?>
+            <div class="col">
                 <?php if (isset($_SESSION['user'])) : ?>
                     <form action="create.php" method="post">
                     <button type="submit" name="table" value="post">New Post</button> 
