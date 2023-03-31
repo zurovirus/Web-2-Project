@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="main.css">
     <title>Party Finder</title>
 </head>
-<body>
+<body class="bg-warning">
     <?php include('header.php') ?>
     <?php include('login.php') ?>
             <div class="col">

@@ -12,6 +12,7 @@
     $lfpStatement->execute();
 
 ?>
+<div class="bg-image w-100"  style="background-image: url('images/banner.png');">
 <div class="form-outline">
 <form class="input-group w-25 ms-auto" action="lfp.php" method="post">
     <input class="form-control me-2" type="search" name="search" id="search" placeholder="Search for a group" aria-label="Search" aria-describedby="search-addon">
@@ -21,11 +22,12 @@
         <option value="= <?= $catSearch['categoryId']?>"><?= $catSearch['categoryName'] ?></option>
     <?php endwhile ?>
     </select>
-    <button class="btn btn-outline-warning mx-2 my-2 my-sm-0" type="submit" name="find" value="find">Investigate</button>
+    <button class="btn btn-dark mx-2 my-2 my-sm-0" type="submit" name="find" value="find">Investigate</button>
 </form>
 </div>
 <div class="jumbotron">
-    <h1 class="display-4 mb-5"><a href="index.php" class="text-decoration-none">Party Finder</a></h1>
+    <h1 class="display my-5 "></h1>
+</div>
 </div>
 <nav id="nav" class="navbar navbar-expand navbar-dark bg-dark">
     <ul class="navbar-nav">
