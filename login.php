@@ -26,7 +26,7 @@
                     </div>
                     <button class="btn btn-outline-success my-1" type="submit">Login</button>
                     </form>
-                    <p class="text-center my-3 mx-auto">No account? <a href="register.php">Register now!</a></p>
+                    <p class="text-center my-3 mx-auto">No account? <a href="register.php" class="text-decoration-none">Register now!</a></p>
                     </div>
                     </div>
                 <?php endif ?>

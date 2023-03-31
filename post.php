@@ -107,7 +107,7 @@
             <div class="my-4">
                 <h2 class="my-3"><?= $posts['title'] ?></h2>
                 <p class="my-1">Date created: <?= date("F d, Y, g:i a", strtotime($posts['dateCreated'])) ?></p>
-                <p class="my-1">By: <a href="member.php?userId=<?= $posts['userId'] ?>" class="text-decoration-none"><?= $posts['userName'] ?></a></p>
+                <p class="my-1"><img src="images/<?= $posts['thumbnail'] ?>" alt="thumbnail"> <a href="member.php?userId=<?= $posts['userId'] ?>" class="text-decoration-none"><?= $posts['userName'] ?></a></p>
                 <p class="my-2"><?= $posts['content'] ?></p>
                 <?php if ($posts['updated'] != null) : ?>
                         <p class="my-2">Edited by: <a href="member.php?userId=<?= $editName['userEditId'] ?>" class="text-decoration-none">
@@ -126,9 +126,10 @@
                     <h4 class="mt-4">Comments</h4>
                     <?php while ($comment = $commentStatement->fetch()) : ?>
                         <?php if ($comment['userId'] == NULL) : ?>
-                            <p class="fst-italic my-0 ms-2">anonymous</p>
+                            <p class="fst-italic my-0 ms-2"><img src="images/unidentified_thumbnail.jpg" alt="thumbnail"> anonymous</p>
                         <?php else : ?>
-                            <p class="my-0 ms-2">By: <a href="member.php?userId=<?= $comment['userId'] ?>" class="text-decoration-none"><?= $comment['userName'] ?></a></p>
+                            <p class="my-0 ms-2"><img src="images/<?= $comment['thumbnail'] ?>" alt="thumbnail"> 
+                            <a href="member.php?userId=<?= $comment['userId'] ?>" class="text-decoration-none"><?= $comment['userName'] ?></a></p>
                         <?php endif ?>
                         <p class="my-0 ms-3">Date posted: <?= date("F d, Y, g:i a", strtotime($comment['date'])) ?></p>
                         <p class="lh-sm my-2 ms-4"><?= $comment['content'] ?></p>

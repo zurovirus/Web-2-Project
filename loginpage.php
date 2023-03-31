@@ -78,9 +78,9 @@
 <body>
     <?php include('header.php') ?>
     <?php include('login.php') ?>
-                <div class="col">
+                <div class="col my-4">
                         <div class="col-sm-4 me-4 my-2">
-                            <form class="form-control" action="login.php" method="post">
+                            <form class="" action="loginpage.php" method="post">
                             <div class="row mb-3">
                                 <label class="col-sm-1 me-auto col-form-label" for="username">Username:</label>
                                 <div class="col-sm-9 my-2">
