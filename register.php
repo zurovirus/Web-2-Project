@@ -18,14 +18,12 @@
         return false;
     }
 
-    if ($_POST)
-    {
+    if ($_POST){
         $postsData = [$_POST['username'], $_POST['password'], $_POST['confirmpassword'], $_POST['name'], $_POST['email']];
 
         $error = emptyCheck($postsData);
 
-        if ($error)
-        {
+        if ($error){
             $errorMessages[] .= "A field cannot be empty.";
         }
 
@@ -42,10 +40,9 @@
             $fetchname = $fetch['userName'];
         }
         
-        if ($fetchname == $username && !empty($username)) 
-        {
+        if ($fetchname == $username && !empty($username)){
             $error = true;
-            $errorMessages[] .= "Username is taken";
+            $errorMessages[] .= "Username is taken!";
         }
 
         if ($_POST['password'] != $_POST['confirmpassword']){

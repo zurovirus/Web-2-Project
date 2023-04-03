@@ -133,23 +133,31 @@
                     <h2>No results found.</h2>
                 <?php endif ?>
                 <?php while ($post = $statement->fetch()) : ?>
-                    <div class="my-4">
-                        <h2 class="my-3"> <a class="text-decoration-none" href="post.php?postId=<?= $post['postId'] ?>"><?= $post['title'] ?></a></h2>
-                        <p class="my-1"> Date created: <?= date("F d, Y, g:i a", strtotime($post['dateCreated'])) ?></p>
-                        <p class="my-1">By: <a class="text-decoration-none" href="member.php?userId=<?= $post['oUserId'] ?>"><?= $post['oUserName'] ?></a></p>
-                        <p class="my-2"> <?= $post['content'] ?></p>
-                        <?php if ($post['updated'] != null) : ?>
-                            <p class="my-2"> Edit By: <a class="text-decoration-none" href="member.php?userId=<?= $post['eUserId'] ?>"><?= $post['eUserName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($post['updated'])) ?></p>
-                        <?php endif ?>
-                        <?php if (isset($_SESSION['userId'])) : ?>
-                            <?php if ($_SESSION['userId'] == $post['oUserId'] || $_SESSION['authorization'] >= 3) : ?>
-                                <form action="edit.php?postId=<?= $post['postId'] ?>" method="post">
-                                <div class="d-flex justify-content-end">
-                                    <button class="btn btn-outline-primary btn-sm" type="submit" name="table" value="post">Edit</button>
+                    <div class="rounded my-4">
+                        <div class="bg-image" style="background-image: url('images/ParchmentCenter.png');">
+                            <div class="col ms-5 me-5">
+                                <div class="row ms-5 me-5">
+                                    <div class="my-4">
+                                        <h2 class="my-3"> <a class="text-decoration-none" href="post.php?postId=<?= $post['postId'] ?>"><?= $post['title'] ?></a></h2>
+                                        <p class="my-1"> Date created: <?= date("F d, Y, g:i a", strtotime($post['dateCreated'])) ?></p>
+                                        <p class="my-1">By: <a class="text-decoration-none" href="member.php?userId=<?= $post['oUserId'] ?>"><?= $post['oUserName'] ?></a></p>
+                                        <p class="my-2"> <?= $post['content'] ?></p>
+                                        <?php if ($post['updated'] != null) : ?>
+                                            <p class="my-2"> Edit By: <a class="text-decoration-none" href="member.php?userId=<?= $post['eUserId'] ?>"><?= $post['eUserName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($post['updated'])) ?></p>
+                                        <?php endif ?>
+                                        <?php if (isset($_SESSION['userId'])) : ?>
+                                            <?php if ($_SESSION['userId'] == $post['oUserId'] || $_SESSION['authorization'] >= 3) : ?>
+                                                <form action="edit.php?postId=<?= $post['postId'] ?>" method="post">
+                                                <div class="d-flex justify-content-end">
+                                                    <button class="btn btn-outline-primary btn-sm" type="submit" name="table" value="post">Edit</button>
+                                                </div>
+                                                </form>     
+                                            <?php endif ?>
+                                        <?php endif ?>
+                                    </div>
                                 </div>
-                                </form>     
-                            <?php endif ?>
-                        <?php endif ?>
+                            </div>
+                        </div>
                     </div>
                 <?php endwhile ?>
             </div>           

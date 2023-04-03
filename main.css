@@ -3,7 +3,6 @@ body{
     overflow-x: hidden;
 }
 
-.bg
 .navbar{
     flex-direction: row;
     justify-content: center;

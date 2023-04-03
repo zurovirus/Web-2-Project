@@ -28,8 +28,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.min.css">
     <link rel="stylesheet" href="main.css">
     <title>Party Finder</title>
 </head>
@@ -43,18 +42,24 @@
                         </form>
                     <?php endif ?> 
                 <?php while ($new = $statement->fetch()) : ?>
-                    <div class="my-4">
-                        <h2 class="my-3"> <?= $new['title'] ?></h2>
-                        <p class="my-1"> <?= date("F d, Y, g:i a", strtotime($new['date'])) ?></p>
-                        <p class="my-1">By: <a class="text-decoration-none" href="member.php?userId=<?= $new['userId'] ?>"><?= $new['userName'] ?></a></p>
-                        <p class="my-2"> <?= $new['content'] ?></p>
-                        <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
-                            <form action="edit.php?newId=<?= $new['newId'] ?>" method="post">
-                            <div class="d-flex justify-content-end">
-                                <button class="btn btn-outline-primary btn-sm"  type="submit" name="table" value="new">Edit</button>
+                    <div class="rounded my-4">
+                        <div class="bg-image" style="background-image: url('images/ParchmentCenter.png');">
+                            <div class="col ms-5 me-5">
+                                <div class="row ms-5 me-5">
+                                    <h2 class="my-3 text-center" id="title"> <?= $new['title'] ?></h2>
+                                    <p class="my-1"> <?= date("F d, Y, g:i a", strtotime($new['date'])) ?></p>
+                                    <p class="my-1">By: <a class="text-decoration-none" href="member.php?userId=<?= $new['userId'] ?>"><?= $new['userName'] ?></a></p>
+                                    <p class="my-2"> <?= $new['content'] ?></p>
+                                    <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
+                                        <form action="edit.php?newId=<?= $new['newId'] ?>" method="post">
+                                            <div class="d-flex justify-content-end">
+                                                <button class="btn btn-outline-primary btn-sm"  type="submit" name="table" value="new">Edit</button>
+                                            </div>
+                                        </form>    
+                                    <?php endif ?>
+                                </div>
                             </div>
-                            </form>    
-                        <?php endif ?> 
+                        </div>
                     </div>
                 <?php endwhile ?>
             </div>   

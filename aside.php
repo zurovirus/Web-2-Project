@@ -26,5 +26,5 @@
         <?php endwhile ?>
     </ul>
 </aside>
-                </div>
+</div>
 </div>
