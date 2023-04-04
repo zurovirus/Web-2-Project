@@ -67,42 +67,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.min.css">
     <link rel="stylesheet" href="main.css">
     <title>Document</title>
     <?php if (isset($_SESSION['user'])) : ?>
     <script type="text/javascript"> window.onload = function () { alert("Success!"); } </script>
     <?php endif ?>
 </head>
-<body>
+<body class="bg-image" style="background-image: url('images/board.jpg');">
     <?php include('header.php') ?>
     <?php include('login.php') ?>
                 <div class="col my-4">
-                        <div class="col-sm-4 me-4 my-2">
-                            <form class="" action="loginpage.php" method="post">
-                            <div class="row mb-3">
-                                <label class="col-sm-1 me-auto col-form-label" for="username">Username:</label>
-                                <div class="col-sm-9 my-2">
-                                    <input class="col-sm-9" type="text" name="userName" id="userName">
-                                </div>
-                                <?php if ($userError) : ?>
-                                    <p class="error">Invalid Username</p>
-                                <?php endif ?>
+                    <div class="col-sm-4 me-4 my-2">
+                        <form class="" action="loginpage.php" method="post">
+                        <div class="row mb-3">
+                            <label class="col-sm-1 me-auto col-form-label" for="username">Username:</label>
+                            <div class="col-sm-9 my-2">
+                                <input class="col-sm-9" type="text" name="userName" id="userName">
                             </div>
-                            <div class="row mb-3">
-                            <label class="col-sm-1 me-auto col-form-label" for="password">Password:</label>
-                                <div class="col-sm-9 my-1">
-                            <input class="col-sm-9" type="password" name="password" id="password">
-                            </div>
-                            <?php if ($passwordError) : ?>
-                                <p class="error">Invalid Password</p>
+                            <?php if ($userError) : ?>
+                                <p class="error">Invalid Username</p>
                             <?php endif ?>
                         </div>
-                        <button class="btn btn-outline-success my-1" type="submit">Login</button>
-                        <p class="my-1 ms-2">No account? <a href="register.php">Register now!</a></p>
-                        </form>
+                        <div class="row mb-3">
+                        <label class="col-sm-1 me-auto col-form-label" for="password">Password:</label>
+                            <div class="col-sm-9 my-1">
+                        <input class="col-sm-9" type="password" name="password" id="password">
                         </div>
+                        <?php if ($passwordError) : ?>
+                            <p class="error">Invalid Password</p>
+                        <?php endif ?>
+                    </div>
+                    <button class="btn btn-outline-success my-1" type="submit">Login</button>
+                    <p class="my-1 ms-2">No account? <a href="register.php">Register now!</a></p>
+                    </form>
+                    </div>
                 </div>   
                 <?php include('aside.php') ?> 
             </div>

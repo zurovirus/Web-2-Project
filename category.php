@@ -70,36 +70,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.min.css">
     <link rel="stylesheet" href="main.css">
-    <title>Document</title>
+    <title>Category</title>
 </head>
-<body>
+<body class="bg-image" style="background-image: url('images/board.jpg');">
     <?php include('header.php') ?>
     <?php include('login.php') ?>
             <div class="col">
-                <h2>Categories List</h2>
+                <div class="bg-image" style="background-image: url('images/post.png');">
+                    <h2 class="my-4 text-center fw-bolder">Categories List</h2>
+                </div>
                 <?php while ($category = $statement->fetch()) : ?>
                     <div class="categories">
                         <form action="category.php" method="post">
                             <?php if ($_POST && $_POST['post'] == 'edit ' . $category['categoryId']) : ?>
                                 <input type="hidden" name="id" value="<?= $category['categoryId'] ?>">
                                 <input type="text" name="category" value=<?= $category['categoryName'] ?> autofocus  onfocus="this.select()">
-                                <button type="submit" name="post" value="update">Update</button>
+                                <button class="btn btn-primary btn-sm my-2 mx-2" type="submit" name="post" value="update">Update</button>
                             <?php else : ?>
                                 <input type="hidden" name="id" value="<?= $category['categoryId'] ?>">
-                                <label><?= $category['categoryName'] ?></label>
-                                <button type="submit" name="post" value="edit <?= $category['categoryId'] ?>">Edit</button>
-                                <button type="submit" name="post" value="delete" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                                <label class="text-white my-2 mx-2"><?= $category['categoryName'] ?></label>
+                                <div class="d-flex justify-content-start">
+                                    <button class="btn btn-primary btn-sm my-2 mx-2" type="submit" name="post" value="edit <?= $category['categoryId'] ?>">Edit</button>
+                                    <button class="btn btn-danger btn-sm my-2 mx-2" type="submit" name="post" value="delete" onclick="return confirm('Are you sure you want to delete?')">Delete</button>\
+                                </div>
                             <?php endif ?>
                         </form>
                     </div>
                 <?php endwhile ?>
                 <form action="category.php" method="post">
-                    <label for="category">Add a category</label>
+                    <label class="my-2 mx-2 text-white" for="category">Add a category</label>
                     <input type="text" name="category" id="category">
-                    <button type="submit" name="post" value="add">Add</button>
+                    <button class="btn btn-success btn-sm my-2 mx-1" type="submit" name="post" value="add">Add</button>
                 </form>
             </div>   
             <?php include('aside.php') ?> 

@@ -97,18 +97,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.min.css">
     <link rel="stylesheet" href="main.css">
     <title>Party Finder</title>
 </head>
-<body>
+<body class="bg-image" style="background-image: url('images/board.jpg');">
     <?php include('header.php') ?>
     <?php include('login.php') ?>
             <div class="col">
                 <?php if (isset($_SESSION['user'])) : ?>
                     <form action="create.php" method="post">
-                    <button type="submit" name="table" value="post">New Post</button> 
+                    <button class="btn btn-warning btn mt-4" type="submit" name="table" value="post">New Post</button> 
                     </form>   
                     </br>
                 <?php endif ?> 
@@ -123,7 +122,7 @@
                         <option value="ASC">Oldest</option>
                         <option value="DESC">Newest</option>
                     </select>
-                        <button class="btn btn-outline-warning my-sm-0" type="submit" name="sorted" value="sort">Sort</button> 
+                        <button class="btn btn-primary my-sm-0" type="submit" name="sorted" value="sort">Sort</button> 
                     </form>
                     <?php if (isset($_POST['sorted'])) : ?>
                         <label class="form-label mx-auto my-2"for="sort">Posts sorted by: <?= $sort ?> <?= $order ?></label>
@@ -137,24 +136,22 @@
                         <div class="bg-image" style="background-image: url('images/ParchmentCenter.png');">
                             <div class="col ms-5 me-5">
                                 <div class="row ms-5 me-5">
-                                    <div class="my-4">
-                                        <h2 class="my-3"> <a class="text-decoration-none" href="post.php?postId=<?= $post['postId'] ?>"><?= $post['title'] ?></a></h2>
-                                        <p class="my-1"> Date created: <?= date("F d, Y, g:i a", strtotime($post['dateCreated'])) ?></p>
-                                        <p class="my-1">By: <a class="text-decoration-none" href="member.php?userId=<?= $post['oUserId'] ?>"><?= $post['oUserName'] ?></a></p>
-                                        <p class="my-2"> <?= $post['content'] ?></p>
-                                        <?php if ($post['updated'] != null) : ?>
-                                            <p class="my-2"> Edit By: <a class="text-decoration-none" href="member.php?userId=<?= $post['eUserId'] ?>"><?= $post['eUserName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($post['updated'])) ?></p>
+                                    <h2 class="my-3 text-center"> <a class="text-decoration-none" href="post.php?postId=<?= $post['postId'] ?>"><?= $post['title'] ?></a></h2>
+                                    <p class="my-1"> Date created: <?= date("F d, Y, g:i a", strtotime($post['dateCreated'])) ?></p>
+                                    <p class="my-1">By: <a class="text-decoration-none" href="member.php?userId=<?= $post['oUserId'] ?>"><?= $post['oUserName'] ?></a></p>
+                                    <p class="my-2"> <?= $post['content'] ?></p>
+                                    <?php if ($post['updated'] != null) : ?>
+                                        <p class="my-2"> Edit By: <a class="text-decoration-none" href="member.php?userId=<?= $post['eUserId'] ?>"><?= $post['eUserName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($post['updated'])) ?></p>
+                                    <?php endif ?>
+                                    <?php if (isset($_SESSION['userId'])) : ?>
+                                        <?php if ($_SESSION['userId'] == $post['oUserId'] || $_SESSION['authorization'] >= 3) : ?>
+                                            <form action="edit.php?postId=<?= $post['postId'] ?>" method="post">
+                                            <div class="d-flex justify-content-end">
+                                                <button class="btn btn-outline-primary btn-sm my-2" type="submit" name="table" value="post">Edit</button>
+                                            </div>
+                                            </form>     
                                         <?php endif ?>
-                                        <?php if (isset($_SESSION['userId'])) : ?>
-                                            <?php if ($_SESSION['userId'] == $post['oUserId'] || $_SESSION['authorization'] >= 3) : ?>
-                                                <form action="edit.php?postId=<?= $post['postId'] ?>" method="post">
-                                                <div class="d-flex justify-content-end">
-                                                    <button class="btn btn-outline-primary btn-sm" type="submit" name="table" value="post">Edit</button>
-                                                </div>
-                                                </form>     
-                                            <?php endif ?>
-                                        <?php endif ?>
-                                    </div>
+                                    <?php endif ?>
                                 </div>
                             </div>
                         </div>

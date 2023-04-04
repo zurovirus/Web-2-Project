@@ -25,11 +25,6 @@
         $avatar = filter_input(INPUT_POST, 'avatar', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $thumbnails = filter_input(INPUT_POST, 'thumbnail', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        // $baseAvatar = pathinfo($avatar);
-        // $position = strpos($avatar, '_medium');
-        // $originalName = substr_replace($avatar, $baseAvatar['dirname'] . $baseAvatar['extension'], strpos($avatar, '_medium'));
-        // print file_uploaded_path($originalName);
-
         if (isset($_POST['delete']) && $avatar != 'unidentified_medium.jpg'){
 
             $deleteAvatar = file_uploaded_path($avatar);
@@ -166,82 +161,91 @@
 <html lang="en">
 <head>
     <title>View Post</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" href="css/main.min.css">
+    <link rel="stylesheet" href="main.css">
 </head>
-<body>
+<body class="bg-image" style="background-image: url('images/board.jpg');">
 <?php include('header.php') ?>
 <?php include('login.php') ?>
             <div class="col-sm-2 my-4">
                 <div class="container">
-                    <?php if (isset($_POST['submit']) && $_POST['submit'] == 'Edit') : ?>
-                        <img class="rounded mx-auto d-block" src="images/<?= $user['avatar'] ?>" alt="avatar">
-                        <h2 class="my-3 text-center" ><?= $user['userName'] ?></h2>
-                        <form method='post' action= "member.php?userId=<?= $user['userId'] ?>">
-                            <input type="hidden" name="avatar" value="<?=$user['avatar'] ?>">
-                            <input type="hidden" name="thumbnail" value="<?=$user['thumbnail'] ?>">
-                            <label for="fullName">Name:</label>
-                            <input type="text" name="fullName" value="<?= $user['fullName'] ?>" autofocus onfocus="this.select()">
-                            <label for="email">Email:</label>
-                            <input type="email" name="email" value="<?= $user['email'] ?>">
-                            </br>
-                            <input type="checkbox" name='delete'> Delete image</br>
-                            <button type="submit" name='submit' value='Update'>Update</button>   
-                        </form>
-                        <h3 class="mt-4">Upload your avatar</h3>
-                        <p>Must be of type png or jpeg/jpg</p>                                 
-                        <form method='post' action= "member.php?userId=<?= $user['userId'] ?>" enctype='multipart/form-data'>
-                            <input class="my-2" type='file' name='image' id='image'>
-                            </br>
-                            <button type='submit' name='submit' value='Edit'>Upload Image</button>
-                        </form>
-                        <?php if ($upload_error_detected): ?>
-                            <p>There was an error processing the file. </br> Error Number: <?= $_FILES['image']['error'] ?></p>
-                        <?php elseif ($wrong_file_type): ?>
-                            <p>Incorrect file type uploaded. </br> Please upload the correct file type.</p>
-                        <?php elseif ($image_upload_detected): ?>
-                            <p>Image has been uploaded successfully.</p>
+                    <div class="bg-image" style="background-image: url('images/Parchment.jpg');">
+                        <?php if (isset($_POST['submit']) && $_POST['submit'] == 'Edit') : ?>
+                            <img class="rounded mx-auto d-block" src="images/<?= $user['avatar'] ?>" alt="avatar">
+                            <h2 class="my-3 text-center" ><?= $user['userName'] ?></h2>
+                            <form method='post' action= "member.php?userId=<?= $user['userId'] ?>">
+                                <input type="hidden" name="avatar" value="<?=$user['avatar'] ?>">
+                                <input type="hidden" name="thumbnail" value="<?=$user['thumbnail'] ?>">
+                                <label class="mx-2 my-2" for="fullName">Name:</label>
+                                <input class="mx-2 my-2" type="text" name="fullName" value="<?= $user['fullName'] ?>" autofocus onfocus="this.select()">
+                                <label class="mx-2 my-2" for="email">Email :</label>
+                                <input class="mx-2 my-2" type="email" name="email" value="<?= $user['email'] ?>">
+                                </br>
+                                <input class="mx-2 my-2" type="checkbox" name='delete'> Delete image</br>
+                                <button class="mx-2 my-2 btn btn-outline-primary btn-sm" type="submit" name='submit' value='Update'>Update</button>   
+                            </form>
+                            <h3 class="mt-4 mb-2 text-center">Upload your avatar</h3>
+                            <p class="text-center my-2">Must be of type png or jpeg/jpg</p>                                 
+                            <form method='post' action= "member.php?userId=<?= $user['userId'] ?>" enctype='multipart/form-data'>
+                                <input class="mx-2 my-2" type='file' name='image' id='image'>
+                                </br>
+                                <button class="mx-2 my-3 btn btn-outline-primary btn-sm" type='submit' name='submit' value='Edit'>Upload Image</button>
+                            </form>
+                            <?php if ($upload_error_detected): ?>
+                                <p>There was an error processing the file. </br> Error Number: <?= $_FILES['image']['error'] ?></p>
+                            <?php elseif ($wrong_file_type): ?>
+                                <p>Incorrect file type uploaded. </br> Please upload the correct file type.</p>
+                            <?php elseif ($image_upload_detected): ?>
+                                <p>Image has been uploaded successfully.</p>
+                            <?php endif ?>
+                        <?php elseif ($user['userName'] == $_SESSION['user'] || $_SESSION['authorization'] >= 3) : ?>
+                            <img class="rounded mx-auto d-block" src="images/<?= $user['avatar'] ?>" alt="avatar">
+                            <h2 class="my-3 mx-2 text-center" ><?= $user['userName'] ?></h2>
+                            <p class="my-2 mx-2" ><?= $user['fullName'] ?></p>
+                            <p class="my-2 mx-2" ><?= $user['email'] ?></p>
+                            <form method='post' action= "member.php?userId=<?= $user['userId'] ?>">
+                                <div class="d-flex justify-content-end">
+                                    <button class="btn btn-primary btn-sm my-2 mx-2" type="submit" name='submit' value='Edit'>Edit</button>
+                                </div>  
+                            </form>
+                            <?php if (isset($deleteError) && $deleteError) : ?>
+                                    <p class="mx-2 my-2 text-center">Image has not been uploaded</p>
+                            <?php endif ?>
+                            <?php if (isset($nameError) && $nameError) : ?>
+                                <p class="mx-2 my-2 text-center">Could not update</p>
+                                <p class="mx-2 my-2 text-center">Field cannot be empty</p>
+                            <?php endif ?>
+                        <?php else : ?>
+                            <img class="rounded mx-auto d-block" src="images/<?= $user['avatar'] ?>" alt="avatar">
+                            <h2 class="my-3 mx-2 text-center"><?= $user['userName'] ?></h2>
+                            <p class="my-2 mx-2"><?= $user['fullName'] ?></p>
+                            <p class="my-2 mx-2 pb-2"><?= $user['email'] ?></p>
                         <?php endif ?>
-                    <?php elseif ($user['userName'] == $_SESSION['user'] || $_SESSION['authorization'] >= 3) : ?>
-                        <img class="rounded mx-auto d-block" src="images/<?= $user['avatar'] ?>" alt="avatar">
-                        <h2 class="my-3 text-center" ><?= $user['userName'] ?></h2>
-                        <p class="my-2" ><?= $user['fullName'] ?></p>
-                        <p class="my-2" ><?= $user['email'] ?></p>
-                        <form method='post' action= "member.php?userId=<?= $user['userId'] ?>">
-                            <button type="submit" name='submit' value='Edit'>Edit</button>
-                        </form>
-                        <?php if (isset($deleteError) && $deleteError) : ?>
-                                <p class="text-center">Image has not been uploaded</p>
-                        <?php endif ?>
-                        <?php if (isset($nameError) && $nameError) : ?>
-                            <p class="text-center">Could not update</p>
-                            <p class="text-center">Field cannot be empty</p>
-                        <?php endif ?>
-                    <?php else : ?>
-                        <img class="rounded mx-auto d-block" src="images/<?= $user['avatar'] ?>" alt="avatar">
-                        <h2 class="my-3 text-center"><?= $user['userName'] ?></h2>
-                        <p class="my-2"><?= $user['fullName'] ?></p>
-                        <p class="my-2"><?= $user['email'] ?></p>
-                    <?php endif ?>
+                    </div>
                 </div>
             </div>
             <div class="col my-4">
                 <div class="container">
-                    <h2>Posts</h2>
+                    <div class="bg-image" style="background-image: url('images/post.png');">
+                        <h2 class="text-center fw-bolder">Posts</h2>
+                    </div>
                     <?php if ($rowcount == 0) : ?>
-                        <p><?= $user['userName'] ?> hasn't posted yet.</p>
+                        <p class="text-center text-white"><?= $user['userName'] ?> hasn't posted yet.</p>
                     <?php else : ?>
                         <?php while ($post = $statement->fetch()) : ?>
-                            <div class="col mx-2 my-3">
-                                <h4><a href="post.php?postId=<?= $post['postId'] ?>" class="text-decoration-none"><?=$post['title'] ?></a></h4>
-                                <?php if (strlen($post['content']) > 50) : ?>
-                                    <p> <?= substr($post['content'], 0, 50) . "..." ?><br>
-                                    <a class="text-decoration-none" href="post.php?postId=<?= $post['postId'] ?>">Investigate further...</a></p>
-                                <?php else : ?>
-                                    <p><?= $aside['content'] ?></p>
-                                <?php endif ?>
-                            </div>
+                        <div class="bg-image" style="background-image: url('images/ParchUser.png');">
+                            <div class="col mx-5 my-3">
+                                <div class="row ms-5 me-5">
+                                    <h4 class="my-3 text-center"><a href="post.php?postId=<?= $post['postId'] ?>" class="text-decoration-none"><?=$post['title'] ?></a></h4>
+                                    <?php if (strlen($post['content']) > 70) : ?>
+                                        <p class="my-2"> <?= substr($post['content'], 0, 70) . "..." ?></p>
+                                        <p class="my-2 text-end"><a class="text-decoration-none" href="post.php?postId=<?= $post['postId'] ?>">Investigate further...</a></p>
+                                    <?php else : ?>
+                                        <p><?= $post['content'] ?></p>
+                                    <?php endif ?>
+                                </div>
+                            </div>  
+                        </div>                
                         <?php endwhile ?>
                     <?php endif ?>
                 </div>

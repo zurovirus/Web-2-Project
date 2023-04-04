@@ -96,57 +96,73 @@
     <link rel="stylesheet" href="css/main.min.css">
     <link rel="stylesheet" href="main.css">
 </head>
-<body class="bg-warning">
+<body class="bg-image" style="background-image: url('images/board.jpg');">
 <?php include('header.php') ?>
 <?php include('login.php') ?>
-        <div class="col ">
+        <div class="col my-4">
             <?php if (!empty($_POST) && isset($_POST['table'])) : ?>
                 <input type="hidden" name="edit" value="<?= $_POST['table'] ?>">
             <?php endif ?>
-            <div class="my-4">
-                <h2 class="my-3"><?= $posts['title'] ?></h2>
-                <p class="my-1">Date created: <?= date("F d, Y, g:i a", strtotime($posts['dateCreated'])) ?></p>
-                <p class="my-1"><img src="images/<?= $posts['thumbnail'] ?>" alt="thumbnail"> <a href="member.php?userId=<?= $posts['userId'] ?>" class="text-decoration-none"><?= $posts['userName'] ?></a></p>
-                <p class="my-2"><?= $posts['content'] ?></p>
-                <?php if ($posts['updated'] != null) : ?>
-                        <p class="my-2">Edited by: <a href="member.php?userId=<?= $editName['userEditId'] ?>" class="text-decoration-none">
-                        <?= $editName['userName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($posts['updated'])) ?></p>
-                <?php endif ?>
-                <?php if (isset($_SESSION['userId'])) : ?>
-                    <?php if ($_SESSION['userId'] == $posts['userId'] || $_SESSION['authorization'] >= 3) : ?>
-                        <form action="edit.php?postId=<?= $posts['postId'] ?>" method="post">
-                        <div class="d-flex justify-content-end">
-                            <button class="btn btn-outline-primary btn-sm" type="submit" name="table" value="post">Edit</button>
+            <div class="bg-image" style="background-image: url('images/ParchmentCenter.png');">
+                <div class="col ms-5 me-5">
+                    <div class="row ms-5 me-5">
+                        <div class="my-3">
+                            <h2 class="text-center"><?= $posts['title'] ?></h2>
+                            <p class="my-1">Date created: <?= date("F d, Y, g:i a", strtotime($posts['dateCreated'])) ?></p>
+                            <p class="my-1"><img src="images/<?= $posts['thumbnail'] ?>" alt="thumbnail"> <a href="member.php?userId=<?= $posts['userId'] ?>" class="text-decoration-none"><?= $posts['userName'] ?></a></p>
+                            <p class="my-2"><?= $posts['content'] ?></p>
+                            <?php if ($posts['updated'] != null) : ?>
+                                    <p class="my-2">Edited by: <a href="member.php?userId=<?= $editName['userEditId'] ?>" class="text-decoration-none">
+                                    <?= $editName['userName'] ?></a> on <?= date("F d, Y, g:i a", strtotime($posts['updated'])) ?></p>
+                            <?php endif ?>
+                            <?php if (isset($_SESSION['userId'])) : ?>
+                                <?php if ($_SESSION['userId'] == $posts['userId'] || $_SESSION['authorization'] >= 3) : ?>
+                                    <form action="edit.php?postId=<?= $posts['postId'] ?>" method="post">
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn btn-outline-primary btn-sm" type="submit" name="table" value="post">Edit</button>
+                                    </div>
+                                    </form>     
+                                <?php endif ?>
+                            <?php endif ?>
                         </div>
-                        </form>     
-                    <?php endif ?>
-                <?php endif ?>
+                    </div>
+                </div>
+            </div>
+                <div class="col-6 ">
                 <?php if ($rowcount != 0) : ?>
-                    <h4 class="mt-4">Comments</h4>
+                    <h4 class="text-white mt-2">Comments</h4>
                     <?php while ($comment = $commentStatement->fetch()) : ?>
+                        <div class="my-3">
+                        <div class="bg-image" style="background-image: url('images/Parchment.jpg');">
+                        <div class="row">
                         <?php if ($comment['userId'] == NULL) : ?>
-                            <p class="fst-italic my-0 ms-2"><img src="images/unidentified_thumbnail.jpg" alt="thumbnail"> anonymous</p>
+                            <p class="fst-italic pt-2 ms-2"><img src="images/unidentified_thumbnail.jpg" alt="thumbnail"> anonymous</p>
                         <?php else : ?>
-                            <p class="my-0 ms-2"><img src="images/<?= $comment['thumbnail'] ?>" alt="thumbnail"> 
+                            <p class="pt-2 ms-2"><img src="images/<?= $comment['thumbnail'] ?>" alt="thumbnail"> 
                             <a href="member.php?userId=<?= $comment['userId'] ?>" class="text-decoration-none"><?= $comment['userName'] ?></a></p>
                         <?php endif ?>
-                        <p class="my-0 ms-3">Date posted: <?= date("F d, Y, g:i a", strtotime($comment['date'])) ?></p>
-                        <p class="lh-sm my-2 ms-4"><?= $comment['content'] ?></p>
-                        <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
-                            <form action="post.php?postId=<?= $posts['postId'] ?>" method="post">
-                            <div class="d-flex justify-content-evenly">
-                                <button class="btn btn-outline-danger btn-sm my-2" type="submit" name="delete" value=<?= $comment['commentId'] ?> 
-                                    onclick="return confirm('Are you sure you want to delete?')">Delete</button>
-                            </div>
-                            </form>  
+                        </div>
+                        <p class="ms-3">Date posted: <?= date("F d, Y, g:i a", strtotime($comment['date'])) ?></p>
+                        <p class="lh-sm pb-3 ms-4"><?= $comment['content'] ?></p>
+                        <?php if (isset($_SESSION['authorization'])) : ?>
+                            <?php if ($_SESSION['userId'] == $comment['userId'] || $_SESSION['authorization'] >= 3) : ?>
+                                <form action="post.php?postId=<?= $posts['postId'] ?>" method="post">
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn btn-outline-danger btn-sm mb-2 mx-2" type="submit" name="delete" value=<?= $comment['commentId'] ?> 
+                                            onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                                    </div>
+                                </form>  
+                            <?php endif ?>
                         <?php endif ?>
+                        </div>
+                        </div>
                     <?php endwhile ?>
                 <?php endif ?>
             </div>
             <form action="post.php?postId=<?= $posts['postId'] ?>" method="post">
-                <label for="comment" class="d-flex my-2">Add a comment</label>
-                <textarea name="comment" id="comment" cols="52" rows="5"></textarea>
-                <div class="d-flex justify-content-evenly">
+                <label for="comment" class="d-flex my-2 text-white">Add a comment</label>
+                <textarea name="comment" id="comment" cols="57" rows="5"></textarea>
+                <div class="col-6 my-2">
                     <button class="btn btn-outline-success my-2" type="submit" name="button" value="comment">Submit</button>
                 </div>
             </form>

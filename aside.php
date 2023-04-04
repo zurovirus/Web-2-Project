@@ -11,20 +11,24 @@
 ?>
 <div class="col-3">
 <aside class= "container"> 
-    <ul class="list-group" style="width: 400px";>
-    <h3 class="mx-auto my-4">Adventurers In Need</h3>
+    <div class="bg-image" style="background-image: url('images/tag.png');">
+        <h3 class="text-center fw-bold text-white mt-4 mb-0">Adventurers In Need</h3>
+    </div>
         <?php while ($aside = $asides->fetch()) : ?>
-            <li class="list-group-item">
-                <h4 class="mx-auto"> <a class="text-decoration-none" href="post.php?postId=<?= $aside['postId'] ?>"><?= $aside['title'] ?></a></h3>
-                <?php if (strlen($aside['content']) > 50) : ?>
-                    <p> <?= substr($aside['content'], 0, 50) . "..." ?><br>
-                    <a class="text-decoration-none" href="post.php?postId=<?= $aside['postId'] ?>">Investigate further...</a></p>
-                <?php else : ?>
-                    <p><?= $aside['content'] ?></p>
-                <?php endif ?>
-            </li>
+            <div class="bg-image" style="background-image: url('images/asideParchment.png');">
+                <div class="col mx-4 mb-2">
+                    <h4 class="text-center"><a class="text-decoration-none" href="post.php?postId=<?= $aside['postId'] ?>"><?= $aside['title'] ?></a></h4>
+                    <?php if (strlen($aside['content']) > 50) : ?>
+                        <p class="my-3"> <?= substr($aside['content'], 0, 50) . "..." ?></p>
+                        <p class="my-2 text-end"><a class="text-decoration-none" href="post.php?postId=<?= $aside['postId'] ?>">Investigate further...</a></p>
+                    <?php else : ?>
+                        <p class="my-2"><?= $aside['content'] ?></p>
+                        </br>
+                    <?php endif ?>
+                </div>
+            </div>
         <?php endwhile ?>
-    </ul>
+    </div>
 </aside>
 </div>
 </div>

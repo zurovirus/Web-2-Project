@@ -79,35 +79,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.min.css">
     <link rel="stylesheet" href="main.css">
-    <title>Document</title>
+    <title>Register</title>
 </head>
-<body>
+<body class="bg-image" style="background-image: url('images/board.jpg');">
     <?php include('header.php') ?>
     <?php include('login.php') ?>
             <div class="col">
+                <div class="bg-image" style="background-image: url('images/post.png');">
+                    <h1 class="my-4 text-center fw-bolder">Register a New Account</h1>
+                </div>
                 <?php if ($error) : ?>
-                    <h1>An error has occurred.</h1>
+                    <h1 class="text-white">An error has occurred.</h1>
                     <?php foreach ($errorMessages as $errorMessage) : ?>
-                        <p><?= $errorMessage ?> </p>
+                        <p class="text-white"><?= $errorMessage ?></p>
                     <?php endforeach ?>
-                    <a class="home" href="register.php">Back</a>
+                    <a class="text-decoration-none" href="register.php">Back</a>
                 <?php else : ?>
-                <form action="register.php" method="post">
-                    <label for="username">Username: </label>
-                    <input type="text" name="username" id="username">
-                    <label for="password">Password: </label>
-                    <input type="password" name="password" id="password">
-                    <label for="confirmpassword">Confirm Password: </label>
-                    <input type="password" name="confirmpassword" id="confirmpassword">
-                    <label for="name">Name: </label>
-                    <input type="text" name="name" id="name">   
-                    <label for="password">Email: </label>
-                    <input type="email" name="email" id="email">
-                    <button type="submit">Register</button>
-                </form>
+                <div class="container">
+                    <form class="col-3" action="register.php" method="post">
+                        <div class="bg-image" style="background-image: url('images/Parchment.jpg');">
+                            <label class="mx-2 my-2" for="username">Username: </label>
+                            <input class="mx-2" type="text" name="username" id="username">
+                            <label class="mx-2 my-2" for="password">Password: </label>
+                            <input class="mx-2" type="password" name="password" id="password">
+                            <label class="mx-2 my-2" for="confirmpassword">Confirm Password: </label>
+                            <input class="mx-2" type="password" name="confirmpassword" id="confirmpassword">
+                            <label class="mx-2 my-2" for="name">Name: </label>
+                            <input class="mx-2"type="text" name="name" id="name">   
+                            <label class="mx-2 my-2" for="password">Email: </label>
+                            <input class="mx-2" type="email" name="email" id="email">
+                            <button class="btn btn-success my-3 mx-2" type="submit">Register</button>
+                        </div>
+                    </form>
+                </div>
                 <?php endif ?>
             </div>   
             <?php include('aside.php') ?> 

@@ -123,47 +123,44 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.min.css">
     <link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="tinymce/tinymce.min.js"></script>
     <title>My Blog Post!</title>
 </head>
-<body>
-    <!-- Remember that alternative syntax is good and html inside php is bad -->
-    <!-- If an error occurs, the error page will be displayed, else the form displays. -->
+<body class="bg-image" style="background-image: url('images/board.jpg');"> 
     <?php include('header.php') ?>
     <?php include('login.php') ?>
             <div class="col">
                 <?php if ($error) : ?>
                     <h1>An error has occurred.</h1>    
                     <?php foreach ($errorMessages as $errorMessage) : ?>
-                        <p><?= $errorMessage ?> </p>
+                        <p class="text-white"><?= $errorMessage ?> </p>
                     <?php endforeach ?>
-                    <a class="home" href="index.php">Return Home</a>
+                    <a class="text-decoration-none" href="index.php">Return Home</a>
                 <?php else : ?>
                     <form action="create.php" method="post">
-                        <label for="title">Title</label>
+                        <label for="title" class="text-white mt-4 mb-2">Title</label>
                         </br>  
                         <input type="text" name="title" id="title">
                         </br> 
-                        <label for="content">Content</label>
+                        <label for="content" class="text-white my-2">Content</label>
                         <textarea name="content" id="content" cols="60" rows="10"></textarea>
                         <script type="text/javascript">tinyMCE.init({
                             selector : "#content"
                             });
                         </script>
                         <?php if ($_POST['table'] == 'post') : ?>
-                            <label for="category">Category</label>
+                            <label for="category" class="text-white mt-2 mx-3">Category</label>
                             <select name="category" id="category">
-                                <option value="">--</option>
+                                <option value="">None</option>
                                 <?php while ($category = $statement->fetch()) : ?>
                                     <option value="<?= $category['categoryId']?>"><?= $category['categoryName'] ?></option>
                                 <?php endwhile ?>
                             </select>     
                         <?php endif ?>
-                        <span>
-                            <button type="submit" name="edit" value="<?= $_POST['table'] ?>">Post</button>
+                        <span class="d-flex justify-content-end">
+                            <button class="btn btn-success my-2 mx-1" type="submit" name="edit" value="<?= $_POST['table'] ?>">Post</button>
                         </span>
                     </form>
                 <?php endif ?>

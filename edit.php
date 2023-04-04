@@ -194,13 +194,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.min.css">
     <link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="tinymce/tinymce.min.js"></script>
     <title>Edit this Post!</title>
 </head>
-<body>
+<body class="bg-image" style="background-image: url('images/board.jpg');">
     <?php include('header.php') ?>
     <?php include('login.php') ?>
             <div class="col">
@@ -214,11 +213,11 @@
                     <form method="post">
                         <input type="hidden" name=<?= $tableid ?> value="<?= $row[$tableid] ?>">
                         <input type="hidden" name="edit" value="<?= $_POST['table'] ?>">
-                        <label for="title">Title</label>
+                        <label class="text-white mt-4 my-2" for="title">Title</label>
                         </br>
                         <input type="text" name="title" id="title" value="<?= $row['title'] ?>">
                         </br>
-                        <label for="content">Content</label>
+                        <label class="text-white my-2" for="content">Content</label>
                         <textarea name="content" id="content" cols="60" rows="10"><?= $row['content'] ?></textarea>
                         <script type="text/javascript">tinyMCE.init({
                             selector : "#content"});
@@ -238,8 +237,10 @@
                         <?php endif ?>
                         <br>
                         <span>
-                            <button type="submit" name="submit" value="update">Update</button>
-                            <button type="submit" name="submit" value="delete" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                            <button class="btn btn-primary btn-sm" type="submit" name="submit"
+                            value="update">Update</button>
+                            <button class="btn btn-danger btn-sm mx-5 my-3" type="submit" name="submit" 
+                            value="delete" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
                         </span>
                     </form>
                 <?php endif ?>

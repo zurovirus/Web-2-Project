@@ -32,13 +32,13 @@
     <link rel="stylesheet" href="main.css">
     <title>Party Finder</title>
 </head>
-<body class="bg-warning">
+<body class="bg-image w100" style="background-image: url('images/board.jpg');">
     <?php include('header.php') ?>
     <?php include('login.php') ?>
             <div class="col">
                 <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
                         <form action="create.php" method="post">
-                        <button type="submit" name="table" value="new">New Post</button> 
+                        <button class="btn btn-warning btn mt-4" type="submit" name="table" value="new">New Post</button> 
                         </form>
                     <?php endif ?> 
                 <?php while ($new = $statement->fetch()) : ?>
@@ -53,7 +53,7 @@
                                     <?php if (isset($_SESSION['authorization']) && $_SESSION['authorization'] >= 3) : ?>
                                         <form action="edit.php?newId=<?= $new['newId'] ?>" method="post">
                                             <div class="d-flex justify-content-end">
-                                                <button class="btn btn-outline-primary btn-sm"  type="submit" name="table" value="new">Edit</button>
+                                                <button class="btn btn-outline-primary btn-sm my-2"  type="submit" name="table" value="new">Edit</button>
                                             </div>
                                         </form>    
                                     <?php endif ?>
