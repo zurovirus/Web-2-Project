@@ -18,6 +18,22 @@
     // Execute the SELECT.
     $statement->execute();
 
+    if(!isset($_SESSION['userId'])){
+        header("Location: index.php");
+    }
+
+    if ($_POST && $_POST['submit']){
+        $id = filter_input(INPUT_POST, 'submit', FILTER_SANITIZE_NUMBER_INT);
+
+        $deleteUser = "DELETE FROM users WHERE userId = :userId LIMIT 1"; 
+        $deleteStatement = $db->prepare($deleteUser);
+        $deleteStatement->bindParam(':userId', $id);
+
+        $deleteStatement->execute();
+
+        header('Location: members.php');
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,8 +57,15 @@
                     <?php while ($user = $statement->fetch()) : ?>
                         <div class="col-sm-4 mt-4 text-center my-2">
                             <h4 class="bg-image" style="background-image: url('images/ParchList.png');">
-                            <a class="text-decoration-none" href="member.php?userId=<?= $user['userId'] ?>"><?= $user['userName'] ?></a></h4>  
+                            <a class="text-decoration-none" href="member.php?userId=<?= $user['userId'] ?>"><?= $user['userName'] ?></a></h4> 
+                            <?php if ($_SESSION['authorization'] >= 3) : ?>
+                            <form action="members.php" method="post">
+                                <button class="btn btn-danger btn-sm mx-5 my-3" type="submit" name="submit" 
+                                value="<?=$user['userId'] ?>" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                            </form>
+                        <?php endif ?> 
                         </div>  
+                       
                     <?php endwhile ?>
                 </div>
             </div>

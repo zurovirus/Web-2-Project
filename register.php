@@ -98,19 +98,21 @@
                     <a class="text-decoration-none" href="register.php">Back</a>
                 <?php else : ?>
                 <div class="container">
-                    <form class="col-3" action="register.php" method="post">
+                    <form class="col-3 offset-md-5" action="register.php" method="post">
                         <div class="bg-image" style="background-image: url('images/Parchment.jpg');">
-                            <label class="mx-2 my-2" for="username">Username: </label>
-                            <input class="mx-2" type="text" name="username" id="username">
-                            <label class="mx-2 my-2" for="password">Password: </label>
-                            <input class="mx-2" type="password" name="password" id="password">
-                            <label class="mx-2 my-2" for="confirmpassword">Confirm Password: </label>
-                            <input class="mx-2" type="password" name="confirmpassword" id="confirmpassword">
-                            <label class="mx-2 my-2" for="name">Name: </label>
-                            <input class="mx-2"type="text" name="name" id="name">   
-                            <label class="mx-2 my-2" for="password">Email: </label>
-                            <input class="mx-2" type="email" name="email" id="email">
-                            <button class="btn btn-success my-3 mx-2" type="submit">Register</button>
+                            <label class="mx-4 my-2" for="username">Username: </label>
+                            <input class="mx-4" type="text" name="username" id="username">
+                            <label class="mx-4 my-2" for="password">Password: </label>
+                            <input class="mx-4" type="password" name="password" id="password">
+                            <label class="mx-4 my-2" for="confirmpassword">Confirm Password: </label>
+                            <input class="mx-4" type="password" name="confirmpassword" id="confirmpassword">
+                            <label class="mx-4 my-2" for="name">Name: </label>
+                            <input class="mx-4"type="text" name="name" id="name">   
+                            <label class="mx-4 my-2" for="password">Email: </label>
+                            <input class="mx-4" type="email" name="email" id="email">
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-success mt-4 mb-3" type="submit">Register</button>
+                            </div>
                         </div>
                     </form>
                 </div>

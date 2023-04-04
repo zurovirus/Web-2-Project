@@ -27,12 +27,13 @@
     }
     
     if (!empty($_POST['button'])) {
+
+        $content = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
         $insertQuery = "INSERT INTO comments (userId, postId, content) VALUES (:userId, :postId, :content)";
 
         $insertStatement = $db->prepare($insertQuery);
-
-        $content = $_POST['comment'];
-
+        
         $insertStatement->bindValue(':postId', $id);
         $insertStatement->bindValue(':content', $content);
 

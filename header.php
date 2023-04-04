@@ -15,7 +15,7 @@
 <div class="bg-image w-100"  style="background-image: url('images/banner.png');">
 <div class="form-outline">
 <form class="input-group w-25 ms-auto" action="lfp.php" method="post">
-    <input class="form-control me-2" type="search" name="search" id="search" placeholder="Search for a group" aria-label="Search" aria-describedby="search-addon">
+    <input class="form-control me-2" type="search" name="search" id="search" placeholder="Search for a group" aria-label="Search">
     <select class="form-select" name="category" id="category">
     <option value="> 0">All</option>
     <?php while ($catSearch = $categoryStatement->fetch()) : ?>
@@ -26,7 +26,7 @@
 </form>
 </div>
 <div class="jumbotron">
-    <h1 class="display my-5 "></h1>
+    <div class="my-5 "></div>
 </div>
 </div>
 <nav id="nav" class="navbar navbar-expand navbar-dark bg-dark">

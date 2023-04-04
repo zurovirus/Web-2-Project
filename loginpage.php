@@ -77,30 +77,34 @@
 <body class="bg-image" style="background-image: url('images/board.jpg');">
     <?php include('header.php') ?>
     <?php include('login.php') ?>
-                <div class="col my-4">
-                    <div class="col-sm-4 me-4 my-2">
-                        <form class="" action="loginpage.php" method="post">
-                        <div class="row mb-3">
-                            <label class="col-sm-1 me-auto col-form-label" for="username">Username:</label>
-                            <div class="col-sm-9 my-2">
-                                <input class="col-sm-9" type="text" name="userName" id="userName">
-                            </div>
-                            <?php if ($userError) : ?>
-                                <p class="error">Invalid Username</p>
-                            <?php endif ?>
+                <div class="col my-4">  
+                    <div class="col-sm-4 me-4">
+                        <div class="bg-image" style="background-image: url('images/loginParchment.png');">
+                            <form class="" action="loginpage.php" method="post">
+                                <div class="row mb-1 pt-3 ps-4">
+                                    <label class="col-sm-1 me-auto mx-2 my-2 col-form-label" for="username">Username:</label>
+                                    <div class="col-sm-9 my-3">
+                                        <input class="col-sm-9" type="text" name="userName" id="userName">
+                                    </div>
+                                    <?php if ($userError) : ?>
+                                        <p class="text-danger">Invalid Username</p>
+                                    <?php endif ?>
+                                </div>
+                                <div class="row mb-1 ps-4">
+                                    <label class="col-sm-1 me-auto mx-2 col-form-label" for="password">Password:</label>
+                                        <div class="col-sm-9 my-1">
+                                    <input class="col-sm-9" type="password" name="password" id="password">
+                                        </div>
+                                <?php if ($passwordError) : ?>
+                                    <p class="text-danger">Invalid Password</p>
+                                <?php endif ?>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button class="btn btn-outline-success my-1 mx-3" type="submit">Login</button>
+                                </div>
+                                <p class="my-3 pb-3 ms-2 text-center">No account? <a class="text-decoration-none" href="register.php">Register now!</a></p>
+                            </form>
                         </div>
-                        <div class="row mb-3">
-                        <label class="col-sm-1 me-auto col-form-label" for="password">Password:</label>
-                            <div class="col-sm-9 my-1">
-                        <input class="col-sm-9" type="password" name="password" id="password">
-                        </div>
-                        <?php if ($passwordError) : ?>
-                            <p class="error">Invalid Password</p>
-                        <?php endif ?>
-                    </div>
-                    <button class="btn btn-outline-success my-1" type="submit">Login</button>
-                    <p class="my-1 ms-2">No account? <a href="register.php">Register now!</a></p>
-                    </form>
                     </div>
                 </div>   
                 <?php include('aside.php') ?> 
