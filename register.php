@@ -67,7 +67,7 @@
 
             $statement->execute();
 
-            header("Location: success.php");
+            header("Location: index.php");
             exit;
         }
     }

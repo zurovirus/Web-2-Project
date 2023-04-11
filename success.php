@@ -24,7 +24,7 @@ session_start();
                     <p>Success!</p>
                     <p>Redirecting to the tavern...</p>
                 <?php else : ?>
-                    <meta http-equiv="refresh" content="3; url=login.php">
+                    <meta http-equiv="refresh" content="3; url=index.php">
                     <p>Redirecting to the login page...</p>
                 <?php endif ?>
                 <?php if (isset($_SESSION['authorization'])) : ?>

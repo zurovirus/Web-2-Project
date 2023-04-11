@@ -3,8 +3,7 @@
 
     session_start();
 
-    if ($_POST)
-    {
+    if ($_POST){
         if (isset($_POST['category']) && empty($_POST['category'])){
            $categoryError = true; 
         }
@@ -57,13 +56,10 @@
         }
     }
     
-    // A select query based off the id in descending order up to 5 records.
     $selectQuery = "SELECT * FROM category WHERE categoryId > 1 ORDER BY categoryName ASC";
 
-    // Prepares the data for the query.
     $statement = $db->prepare($selectQuery);
 
-    // Execute the SELECT.
     $statement->execute();
 ?>
 

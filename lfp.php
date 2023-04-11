@@ -15,8 +15,7 @@
             
             $id = filter_input(INPUT_GET, 'categoryId', FILTER_SANITIZE_NUMBER_INT);
             
-            if ($id == 1)
-            {
+            if ($id == 1){
                 $getQuery = "SELECT p.userId AS oUserId, u.userName AS oUserName, e.userId AS eUserId, e.userName AS eUserName,
                             p.title, p.postId, p.content, p.dateCreated, p.updated FROM posts p LEFT OUTER JOIN 
                             users e ON e.userId = p.userEditId LEFT OUTER JOIN users u ON u.userId = p.userId  WHERE p.categoryId >= $id ORDER BY p.postId DESC";
@@ -32,49 +31,40 @@
 
             $count = $statement->rowCount();
 
-            if ($id != $_GET['categoryId']) 
-            {
+            if ($id != $_GET['categoryId']){
                 header("Location: index.php");
                 exit;
             }
         }
         else{
-            // A select query based off the id in descending order up to 10 records.
             $selectQuery = "SELECT p.userId AS oUserId, u.userName AS oUserName, e.userId AS eUserId, e.userName AS eUserName,
                             p.title, p.postId, p.content, p.dateCreated, p.updated FROM posts p LEFT OUTER JOIN users e 
                             ON e.userId = p.userEditId LEFT OUTER JOIN users u ON u.userId = p.userId ORDER BY postId DESC LIMIT 10";
 
-            // Prepares the data for the query.
             $statement = $db->prepare($selectQuery);
 
-            // Execute the SELECT.
             $statement->execute();
 
             $count = $statement->rowCount();
         }
     }
     else{
-        if (isset($_POST['sorted']))
-        {
+        if (isset($_POST['sorted'])){
             $sort = $_POST['sort'];
             $order = $_POST['order'];
     
-            // A select query based off the id in descending order up to 5 records.
             $selectQuery = "SELECT p.userId AS oUserId, u.userName AS oUserName, e.userId AS eUserId, e.userName AS eUserName,
             p.title, p.postId, p.content, p.dateCreated, p.updated FROM posts p LEFT OUTER JOIN users e 
             ON e.userId = p.userEditId LEFT OUTER JOIN users u ON u.userId = p.userId ORDER BY $sort $order LIMIT 10";
 
-            // Prepares the data for the query.
             $statement = $db->prepare($selectQuery);
     
-            // Execute the SELECT.
             $statement->execute();
 
             $count = $statement->rowCount();
         }
 
-        if (isset($_POST['category']))
-        {
+        if (isset($_POST['category'])){
             $categorySort = $_POST['category'];
             $search = $_POST['search'];
 

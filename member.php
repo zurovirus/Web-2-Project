@@ -1,20 +1,15 @@
 <?php
-    //Requires these php files to be included.
     require('connect.php');
 
     session_start();
 
-    if (!isset($_SESSION['loggedin']))
-    {
+    if (!isset($_SESSION['loggedin'])){
         header('Location: index.php');
     }
     
-    // Sanitize user input to escape HTML entities and filter out dangerous characters.
     $id = filter_input(INPUT_GET, 'userId', FILTER_SANITIZE_NUMBER_INT);
 
-// If the id does not match the $_GET value or if the row is empty, returns the user to the index.
-    if ($id != $_GET['userId']) 
-    {
+    if ($id != $_GET['userId']) {
         header("Location: members.php");
     }
 
@@ -134,20 +129,15 @@
         }
     }
 
-    // Pulls updated data so a refresh isn't needed.
     $query = "SELECT * FROM users WHERE userId = :userId LIMIT 1";
     $postsQuery = "SELECT * FROM posts WHERE userId = :userId";
 
-    // Prepares the data for the query.
     $statement = $db->prepare($query);
     
-    // Binds the data to the values.
     $statement->bindValue('userId', $id, PDO::PARAM_INT);
 
-    // Execute the SELECT.
     $statement->execute();
 
-    // Retrieves the data row.
     $user = $statement->fetch();
 
     $statement= $db->prepare($postsQuery);

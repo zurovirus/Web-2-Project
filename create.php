@@ -18,10 +18,8 @@
     $error = false;
     $errorMessages = [];
 
-    if (empty($_POST['table']))
-    {
-        if ($_POST && !empty($_POST['title']) && !empty($_POST['content'])) 
-        {
+    if (empty($_POST['table'])){
+        if ($_POST && !empty($_POST['title']) && !empty($_POST['content'])) {
             $table = $_POST['edit'] . "s";
 
             // Sanitize user input to escape HTML entities and filter out dangerous characters.
@@ -35,52 +33,38 @@
 
             $select = "SELECT * FROM users WHERE userName = :userName LIMIT 1";
     
-            // Prepares the data for the query.
             $statement = $db->prepare($select);
             
-            // Binds the data to the values.
             $statement->bindValue(":userName", $username);
             
-            // Execute the INSERT.
             $statement->execute();
 
             $row = $statement->fetch();
 
-            if (empty($_POST['category']))
-            {
-                // A query that will insert the title and content into the table.
+            if (empty($_POST['category'])){
                 $query = "INSERT INTO $table (title, content, userId) VALUES (:title, :content, :userId)";
                 
-                // Prepares the data for the query.
                 $statement = $db->prepare($query);
                 
-                // Binds the data to the values.
                 $statement->bindValue(":title", $title);
                 $statement->bindValue(":content", $content);
                 $statement->bindValue(":userId", $row['userId']);
                 
-                // Execute the INSERT.
                 $statement->execute();
             }
-            else
-            {
-                // A query that will insert the title and content into the table.
+            else{
                 $query = "INSERT INTO $table (title, content, userId, categoryId) VALUES (:title, :content, :userId, :categoryId)";
                 
-                // Prepares the data for the query.
                 $statement = $db->prepare($query);
                 
-                // Binds the data to the values.
                 $statement->bindValue(":title", $title);
                 $statement->bindValue(":content", $content);
                 $statement->bindValue(":userId", $row['userId']);
                 $statement->bindValue(":categoryId", $_POST['category']);
                 
-                // Execute the INSERT.
                 $statement->execute();
             }
 
-            // Redirects the user to index.php after inserting into the table.
             switch ($table){
                 case "news":
                     header("Location: index.php");
@@ -93,28 +77,21 @@
             }
         }
     
-        // If there is post data and the title input is empty, an error is raised and a message added.
-        if ($_POST && empty($_POST['title']))
-        {
+        if ($_POST && empty($_POST['title'])){
             $error = true;
             $errorMessages[] .= "Title cannot be empty.";
         }
     
-        // If there is post data and the content input is empty, an error is raised and a message added.
-        if ($_POST && empty($_POST['content']))
-        {
+        if ($_POST && empty($_POST['content'])){
             $error = true;
             $errorMessages[] .= "Content cannot be empty.";
         }
     }
 
-    // A select query based off the id in descending order up to 5 records.
     $selectQuery = "SELECT * FROM category WHERE categoryId > 1 ORDER BY categoryId ASC";
 
-    // Prepares the data for the query.
     $statement = $db->prepare($selectQuery);
 
-    // Execute the SELECT.
     $statement->execute();
 ?>
 

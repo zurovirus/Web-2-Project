@@ -85,8 +85,7 @@
     $posts = $statement->fetch();
     
     // If the id does not match the $_GET value or if the row is empty, returns the user to the index.
-    if ($id != $_GET['postId'] || $posts['postId'] == null) 
-    {
+    if ($id != $_GET['postId'] || $posts['postId'] == null) {
         header("Location: index.php");
     }
 ?>

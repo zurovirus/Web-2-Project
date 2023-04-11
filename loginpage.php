@@ -35,8 +35,7 @@
             $fetchPassword = "";
         }
 
-        if ($fetchname != $username && !empty($username)) 
-        {
+        if ($fetchname != $username && !empty($username)){
             $userError = true;
         }
         
